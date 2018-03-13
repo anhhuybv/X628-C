@@ -15,7 +15,7 @@ import psycopg2
 from time import gmtime, strftime
 
 ########## ket noi database #########
-conn = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "0.0.0.0", port = "5430")
+conn = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "172.17.0.3", port = "5430")
 cur = conn.cursor()
 print "Database connected"
 
@@ -33,7 +33,7 @@ zkteco_users = None
 zkteco = None
 if statusConnect == True:
     sys.path.append("zk")
-    zkteco = ZK('192.168.1.200', port=4370, timeout=2)
+    zkteco = ZK('192.168.1.200', port=4370, timeout=5)
     zkteco = zkteco.connect()
     print "connection to device:", statusConnect
     data_user = zk.getUser()

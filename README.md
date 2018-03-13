@@ -6,9 +6,9 @@
     https://github.com/AlSayedGamal/python_zklib
 
 ### install postgresql
-    docker run --name db -e POSTGRES_PASSWORD=123 -d -p 5432:5432 postgres:latest
+    docker run --name TechDB -e POSTGRES_PASSWORD=123 -d -p 5432:5432 postgres:latest
 	-----
-    docker exec -it -u postgres db psql 
+    docker exec -it -u postgres TechDB psql
 	-----
     create table datatable (
     numerical serial primary key not null,
