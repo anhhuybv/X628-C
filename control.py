@@ -15,7 +15,7 @@ import psycopg2
 from time import gmtime, strftime
 
 ########## ket noi database #########
-conn = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "172.17.0.3", port = "5432")
+conn = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "FingerDB", port = "5432")
 cur = conn.cursor()
 print "Database connected"
 
@@ -299,13 +299,22 @@ def home():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return render_template('admin.html')
+        return render_template('accept.html')
  
 @app.route('/login', methods=['POST'])
 def do_admin_login():
-    if request.form['password'] == 'password' and request.form['username'] == 'admin':
+    if request.form['password'] == 'kubernetes2018' and request.form['username'] == 'techmaster':
         session['logged_in'] = True
+        return render_template('accept.html')
     return home()
+
+@app.route('/accept')
+def home():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        return render_template('admin.html')
+ 
 
 @app.route("/logout")
 def logout():
@@ -319,4 +328,4 @@ def none():
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(debug=True,host='0.0.0.0', port=8080)
+    app.run(debug=True,host='0.0.0.0', port=7000)

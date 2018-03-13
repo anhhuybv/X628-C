@@ -8,7 +8,7 @@
 ### install postgresql
     docker run --name TechDB -e POSTGRES_PASSWORD=123 -d -p 5432:5432 postgres:latest
 	-----
-    docker exec -it -u postgres TechDB psql
+    docker exec -it -u postgres FingerDB psql
 	-----
     create table datatable (
     numerical serial primary key not null,
