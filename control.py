@@ -15,7 +15,7 @@ import psycopg2
 from time import gmtime, strftime
 
 ########## ket noi database #########
-conn = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "FingerDB", port = "5432")
+conn = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "localhost", port = "5432")
 cur = conn.cursor()
 print "Database connected"
 
@@ -40,6 +40,7 @@ if statusConnect == True:
     zkteco_users = zkteco.get_users()
     attendance = zk.getAttendance()
 print statusConnect
+
 ######### tao ung dung FLASK ###############################################
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -151,7 +152,7 @@ def get():
     print form.errors
     return render_template('get.html', form=form)
    
-########## hien thi thong ke #######################################################################
+########## hien thi thong ke
 k= []
 @app.route("/statistic", methods=['GET', 'POST'])
 def statistic():
@@ -196,7 +197,8 @@ def statistic():
                         k.insert(0,(data[0],data[1],all,data[3],nohere))
 
     return render_template('statistic.html', statistic = k)
-######### list user ############################################
+
+# List user
 @app.route('/user/') 
 def user():
     if not session.get('logged_in'):
@@ -209,7 +211,7 @@ def user():
             y.insert(0,(data[0],data[1],data[2],data[3]))
         return render_template('user.html', user=y)
 
-######### danh sach hoc vien hien tai ############################################
+# Show list students now
 import datetime
 from datetime import date, timedelta
 @app.route('/useronline/') 
@@ -264,28 +266,28 @@ def userOnline():
                 today = data[0]
             #
             if threedayago == 1000000:
-                threedayago = "ca ngay"
+                threedayago = "Full Time"
             elif threedayago == 1000:
-                threedayago = "nua ngay"
+                threedayago = "Part Time"
             elif not threedayago:
-                threedayago = "nghi"
+                threedayago = "Day Off"
             #
             if twodayago == 1000000:
-                twodayago = "ca ngay"
+                twodayago = "Full Time"
             elif twodayago == 1000:
-                twodayago = "nua ngay"
+                twodayago = "Part Time"
             elif not twodayago:
-                twodayago = "nghi"
+                twodayago = "Day Off"
             #
             if onedayago == 1000000:
-                onedayago = "ca ngay"
+                onedayago = "Full Time"
             elif onedayago == 1000:
-                onedayago = "nua ngay"
+                onedayago = "Part Time"
             elif not onedayago:
-                onedayago = "nghi"
+                onedayago = "Day Off"
                 #
             if not today:
-                today = "nghi"
+                today = "Day Off"
             y1.insert(0,(user[1],user[2],threedayago,twodayago,onedayago,today)) 
 
             for data in datatemp:
@@ -293,7 +295,7 @@ def userOnline():
                     y1.remove((user[1],user[2],threedayago,twodayago,onedayago,today))        
         return render_template('userOnline.html', userOnline = y, userOffnline = y1 )
  
-######### auth ############################################
+# Login System
 @app.route('/auth')
 def home():
     if not session.get('logged_in'):
@@ -314,7 +316,6 @@ def home():
         return render_template('login.html')
     else:
         return render_template('admin.html')
- 
 
 @app.route("/logout")
 def logout():
@@ -328,4 +329,4 @@ def none():
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(debug=True,host='0.0.0.0', port=7000)
+    app.run(debug=True,host='127.0.0.1', port=8080)

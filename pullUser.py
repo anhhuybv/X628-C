@@ -14,7 +14,7 @@ from datetime import datetime, date, time
 import psycopg2
 
 while True:
-    conn = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "FingerDB", port = "5432")
+    conn = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "localhost", port = "5432")
     cur = conn.cursor()
     print "Opened database successfully"
 

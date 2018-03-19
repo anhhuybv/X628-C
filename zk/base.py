@@ -134,6 +134,7 @@ class ZK(object):
         return d
 
     def connect(self):
+        # type: () -> object
         '''
         connect to the device
         '''
