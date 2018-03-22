@@ -1,49 +1,46 @@
-import sys
-import json
-sys.path.append("zklib")
-from zklib import zklib
-from zk import ZK, const
-
-import time
-import zkconst
 from time import sleep
-from flask import Flask, flash, redirect, render_template, request, session, abort
-from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
-import os
 from datetime import datetime, date, time
 import psycopg2
+from zklib import zklib
 
-while True:
-    conn = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "localhost", port = "5432")
-    cur = conn.cursor()
-    print "Opened database successfully"
+# Connect to database
+current = None
+connectDB = None
+try:
+    connectDB = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "localhost", port = "5432")
+    print "Connected database successfully"
+    current = connectDB.cursor()
+except:
+    print "Unable to connect to the database"
 
-    ########## connect to device #########
-    zk = zklib.ZKLib("192.168.1.200", 4370)
-    ret = zk.connect()
-    if ret == True:
-        print "connected to device"
-        sys.path.append("zk")
-        zkteco = None
-        zkteco = ZK('192.168.1.200', port=4370, timeout=5)
-        zkteco = zkteco.connect()
-        data_user = zk.getUser()
-        zkteco_users = zkteco.get_users()
-        cur.execute("DELETE from usertable;") 
+# Connect to device X628
+zk = zklib.ZKLib("192.168.1.200", 4370)
+statusConnect = zk.connect()
+if statusConnect:
+    print "Connected to device"
+else:
+    print "No connected to devive"
 
-        for user in zkteco_users:
-            privilege = 'User'
-            if user.privilege == const.USER_ADMIN:
-                privilege = 'Admin'
-            uid = format(user.uid)
-            name = format(user.name)
-            privilege = format(privilege)
-            password = format(user.password)
-            group = format(user.group_id)
-            id = format(user.user_id)
-            cur.execute("INSERT INTO usertable (uid,id,name,privilege) VALUES  (" + str(uid) + "," + str(id) + "," + `str(name)` + "," + `str(privilege)` + ")" )
-            conn.commit()
-        print ("done")
-        sleep (3)
-    else:
-        print "Device Disconect"
+# Pull data from device X628
+if statusConnect:
+    print "Start pulling data"
+    users = zk.getUser()
+    # Delete data table
+    current.execute("DELETE FROM usertable")
+    # Pull data to table
+    for uid in users:
+        print '  UID        : {}'.format(uid)
+        print '  User  ID   : {}'.format(users[uid][0])
+        print '  Name       : {}'.format(users[uid][1])
+        print '  Privilege  : {}'.format(users[uid][2])
+        print '  Password   : {}'.format(users[uid][3])
+        dataUsers = ({"uid": format(uid), "iduser": format(users[uid][0]), "name": format(users[uid][1]), "privilege": format(users[uid][2]), "password": format(users[uid][3])})
+        current.execute("INSERT INTO usertable (uid,iduser,name,privilege,password) VALUES (%(uid)s, %(iduser)s, %(name)s, %(privilege)s, %(password)s)", dataUsers)
+
+    connectDB.commit()
+    connectDB.close()
+    current.close()
+    print "Done pulling user"
+    zk.disconnect()
+else:
+    print "Can't pulling user"

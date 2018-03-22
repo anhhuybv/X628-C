@@ -10,17 +10,12 @@
 	-----
     docker exec -it -u postgres FingerDB psql
 	-----
-    create table datatable (
-    numerical serial primary key not null,
-    id int not null,
-    name text not null, 
+    create table dataTime (
+    id serial primary key not null,
+    iduser int not null, 
     date date not null,
-    point int,
-    timein time,
-    timeout time,
-    state int,
-    timelate time,
-    timeearly time);
+    time time not null
+    );
     -----
     create table usertable (
     uid int primary key not null,
@@ -50,3 +45,5 @@
 file pushdata chạy liên tục để đẩy dữ liệu trên máy chấm công về cơ sở dữ liệu, file control.py đọc dữ liệu trong cơ sở dữ liệu và hiển thị.
 
 ### chức năng và các hàm sử dụng note trong code, file control.py
+
+username: techmaster, password: kubernetes2018

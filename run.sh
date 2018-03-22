@@ -1,5 +1,8 @@
+#!/usr/bin/env bash
 # install
 
-    python pulldata.py &
-    python pulluser.py &
-    python control.py
+#    python pullData.py &
+#    python pullUser.py &
+#    python control.py
+export FLASK_APP=control.py
+flask run --reload --debugger
