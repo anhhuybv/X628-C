@@ -1,5 +1,5 @@
-from flask import Flask, url_for, request
-from zklib import zklib
+# from zklib import zklib
+from flask import Flask, url_for, request,render_template
 import psycopg2
 
 app = Flask(__name__)
@@ -48,7 +48,7 @@ def showData():
     #     data = list(data)
     #     data = tuple(data)
     #     h.insert(0, (data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9]))
-    # return render_template('showData.html', showdData=h)
+    return render_template('showData.html', h="Cao Anh Huy")
     return "Hello World!"
 
 
