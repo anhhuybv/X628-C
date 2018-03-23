@@ -1,6 +1,7 @@
 # install
+    install python 2.7
 
-### thư viện python
+# thư viện python
 
     https://github.com/fananimi/pyzk
     https://github.com/AlSayedGamal/python_zklib
@@ -10,12 +11,17 @@
 	-----
     docker exec -it -u postgres FingerDB psql
 	-----
-    create table dataTime (
-    id serial primary key not null,
-    iduser int not null, 
+    create table datatable (
+    numerical serial primary key not null,
+    id int not null,
     date date not null,
-    time time not null
-    );
+    time time not null,
+    point int,
+    timein time,
+    timeout time,
+    state int,
+    timelate time,
+    timeearly time);
     -----
     create table usertable (
     uid int primary key not null,
@@ -24,7 +30,6 @@
     privilege text,
     password text,
     groupid text);
-
 
 ----------
 ### install flask

@@ -1,11 +1,9 @@
-from time import sleep
-from datetime import datetime, date, time
 import psycopg2
 from zklib import zklib
 
 # Connect to database
-current = None
 connectDB = None
+current = None
 try:
     connectDB = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "localhost", port = "5432")
     print "Connected database successfully"

@@ -1,10 +1,9 @@
 from zklib import zklib
-from time import sleep
-import datetime, time
 import psycopg2
 
 # Connect to database
 currentDB = None
+current = None
 try:
     connectDB = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "127.0.0.1", port = "5432")
     print "Connected database successfully"
@@ -23,7 +22,7 @@ else:
 # Pulling data
 if statusConnect:
     attendance = zk.getAttendance()
-    current.execute("DELETE FROM datatime")
+    current.execute("DELETE FROM datatable")
 
     cout = 0
     dataTemp = attendance[0][0]
@@ -31,10 +30,12 @@ if statusConnect:
     for attData in attendance:
         dataTime = ({"iduser": format(attData[0]), "date": format(attData[2].date()), "time": format(attData[2].time())})
         print "IDUser : %s, Date: %s, Time: %s" % (attData[0],attData[2].date(), attData[2].time())
-        current.execute("INSERT INTO datatime (iduser,date,time) VALUES (%(iduser)s, %(date)s, %(time)s)", dataTime)
+        current.execute("INSERT INTO datatable (id,date,time) VALUES (%(iduser)s, %(date)s, %(time)s)", dataTime)
         cout += 1
     connectDB.commit()
     connectDB.close()
     current.close()
+    print "Done pulling data"
+    zk.disconnect()
 else:
     print "Can't pulling data"

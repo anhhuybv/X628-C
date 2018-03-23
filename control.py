@@ -1,5 +1,5 @@
-# from zklib import zklib
-from flask import Flask, url_for, request,render_template
+from flask import Flask, url_for, request, render_template
+# from zklib import zkattendance
 import psycopg2
 
 app = Flask(__name__)
@@ -29,7 +29,7 @@ app = Flask(__name__)
 @app.route("/")
 def showData():
     # flash('Connect to device:' + str(statusConnect))
-    # h = []
+    h = []
     # connectDB.execute("SELECT * FROM dataTime ")
     # rows3 = connectDB.fetchall()
     # for data in rows3:
@@ -48,8 +48,7 @@ def showData():
     #     data = list(data)
     #     data = tuple(data)
     #     h.insert(0, (data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9]))
-    return render_template('showData.html', h="Cao Anh Huy")
-    return "Hello World!"
+    return render_template('showData.html', showdData=h)
 
 
 
@@ -331,5 +330,4 @@ def showData():
 # def none():
 #     session['logged_in'] = False
 #     return showData()
-
 
