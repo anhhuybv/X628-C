@@ -6,39 +6,39 @@ connectDB = None
 current = None
 try:
     connectDB = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "localhost", port = "5432")
-    print "Connected database successfully"
+    print ("Connected database successfully")
     current = connectDB.cursor()
 except:
-    print "Unable to connect to the database"
+    print ("Unable to connect to the database")
 
 # Connect to device X628
 zk = zklib.ZKLib("192.168.1.200", 4370)
 statusConnect = zk.connect()
 if statusConnect:
-    print "Connected to device"
+    print ("Connected to device")
 else:
-    print "No connected to devive"
+    print ("No connected to devive")
 
 # Pull data from device X628
 if statusConnect:
-    print "Start pulling data"
+    print ("Start pulling data")
     users = zk.getUser()
     # Delete data table
     current.execute("DELETE FROM usertable")
     # Pull data to table
     for uid in users:
-        print '  UID        : {}'.format(uid)
-        print '  User  ID   : {}'.format(users[uid][0])
-        print '  Name       : {}'.format(users[uid][1])
-        print '  Privilege  : {}'.format(users[uid][2])
-        print '  Password   : {}'.format(users[uid][3])
+        print ('  UID        : {}'.format(uid))
+        print ('  User  ID   : {}'.format(users[uid][0]))
+        print ('  Name       : {}'.format(users[uid][1]))
+        print ('  Privilege  : {}'.format(users[uid][2]))
+        print ('  Password   : {}'.format(users[uid][3]))
         dataUsers = ({"uid": format(uid), "iduser": format(users[uid][0]), "name": format(users[uid][1]), "privilege": format(users[uid][2]), "password": format(users[uid][3])})
         current.execute("INSERT INTO usertable (uid,iduser,name,privilege,password) VALUES (%(uid)s, %(iduser)s, %(name)s, %(privilege)s, %(password)s)", dataUsers)
 
     connectDB.commit()
     connectDB.close()
     current.close()
-    print "Done pulling user"
+    print ("Done pulling user")
     zk.disconnect()
 else:
-    print "Can't pulling user"
+    print ("Can't pulling user")

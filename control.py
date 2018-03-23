@@ -1,17 +1,18 @@
+import sys
+sys.path.append("zklib")
+from zklib import zklib
 from flask import Flask, url_for, request, render_template
-# from zklib import zkattendance
 import psycopg2
 
 app = Flask(__name__)
 
 # Connect to database
-# currentDB = None
-# try:
-# connectDB = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "127.0.0.1", port = "5432")
-# print "Connected database successfully"
-# current = connectDB.cursor()
-# except:
-#     print "Unable to connect to the database"
+try:
+    connection = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "127.0.0.1", port = "5432")
+    print ("Connected database successfully")
+    cursor = connection.cursor()
+except:
+    print ("Unable to connect to the database")
 
 # Connect to device X628
 # zk = zklib.ZKLib("192.168.1.200", 4370)
@@ -27,28 +28,32 @@ app = Flask(__name__)
 
 # Show data update
 @app.route("/")
-def showData():
-    # flash('Connect to device:' + str(statusConnect))
+def showdata():
+    #flash ('Connect to device:' + str(statusConnect))
     h = []
-    # connectDB.execute("SELECT * FROM dataTime ")
-    # rows3 = connectDB.fetchall()
+    cursor.execute("SELECT * FROM datatable")
+    data = cursor.fetchall()
+    # print("Data: ", current.execute("SELECT * FROM datatable"))
+    # rows3 = current.fetchall()
+    for cat in data:
+        print("Eah: {0}".format(cat))
     # for data in rows3:
     #     if 1000 > data[4] >= 1:
     #         data = list(data)
-    #         data[4] = 'See'
+    #         data[4] = 'co mat'
     #         data = tuple(data)
     #     elif 1000000 > data[4] >= 1000:
     #         data = list(data)
-    #         data[4] = 'Half Day'
+    #         data[4] = 'nua ngay'
     #         data = tuple(data)
     #     elif data[4] >= 1000000:
     #         data = list(data)
-    #         data[4] = 'Full Day'
+    #         data[4] = 'ca ngay'
     #         data = tuple(data)
     #     data = list(data)
     #     data = tuple(data)
-    #     h.insert(0, (data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9]))
-    return render_template('showData.html', showdData=h)
+        h.insert((cat[0], cat[1], cat[2], cat[3], cat[4], cat[5], cat[6], cat[7], cat[8],cat[9]))
+    return render_template('showData.html', showdata=h)
 
 
 

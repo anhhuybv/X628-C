@@ -37,6 +37,7 @@
     sudo pip install wtforms
     sudo pip install psycopg2 # đọc cở sở dữ liệu
     sudo pip install psycopg2-binary
+    sudo pip install Flask-SQLALchemy
 
 
 ----------

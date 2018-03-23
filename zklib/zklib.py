@@ -28,22 +28,16 @@ from zkrefreshdata import *
 from zkfreedata import *
 from zkrestart import *
 from zkAtt import *
-from zkDBRrq import *
-from zkRegevent import *
-from zksoapAtt import *
 
 class ZKLib:
     
     def __init__(self, ip, port):
         self.address = (ip, port)
-        self.ip = ip
         self.zkclient = socket(AF_INET, SOCK_DGRAM)
-        self.zkclient.settimeout(5)
+        self.zkclient.settimeout(3)
         self.session_id = 0
         self.userdata = []
         self.attendancedata = []
-        self.datas = []
-        #self.attendancedataa = []
     
     
     def createChkSum(self, p):
@@ -147,12 +141,18 @@ class ZKLib:
     
     def deviceName(self):
         return zkdevicename(self)
-        
-    def disableDevice(self):
-        return zkdisabledevice(self)
-    
+
     def enableDevice(self):
         return zkenabledevice(self)
+
+    def disableDevice(self):
+        return zkdisabledevice(self)
+
+    def restartDevice(self):
+        return zkrestart(self)
+
+    def poweroffDevice(self):
+        return zkpoweroff(self)
         
     def getUser(self):
         return zkgetuser(self)
@@ -193,14 +193,5 @@ class ZKLib:
 
     def testatt(self):
         return zkAtt(self)
-
-    def getData(self):
-        return zkDBRrq(self)
-
-    def regEvent(self):
-        return zkRegevent(self)
-
-    def getsAtt(self, ip):
-        return zksoapAtt(self)
 
 
