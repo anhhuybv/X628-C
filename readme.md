@@ -1,15 +1,22 @@
-# install
+#### install
     install python 2.7
 
-# thư viện python
+#### thư viện python
 
     https://github.com/fananimi/pyzk
     https://github.com/AlSayedGamal/python_zklib
 
-### install postgresql
+#### install postgresql
+    sudo apt-get install postgresql
+    sudo -i -u postgres
+    psql
+    sudo -u postgres psql postgres
+    \password postgres
+    
     docker run --name TechDB -e POSTGRES_PASSWORD=123 -d -p 5432:5432 postgres:latest
 	-----
     docker exec -it -u postgres FingerDB psql
+    
 	-----
     create table datatable (
     numerical serial primary key not null,
@@ -32,16 +39,18 @@
     groupid text);
 
 ----------
-### install flask
-    sudo pip install flask
+#### install flask and pip
+    sudo apt install python-pip	    # python 2
+    sudo apt install python3-pip	# python 3
+    sudo pip install flask          
     sudo pip install wtforms
-    sudo pip install psycopg2 # đọc cở sở dữ liệu
+    sudo pip install psycopg2       # Read database
     sudo pip install psycopg2-binary
     sudo pip install Flask-SQLALchemy
 
 
 ----------
-### chạy ứng dụng
+#### Run App
     git clone https://github.com/long25vn/fingerprint_scanner_python.git
     cd fingerprint_scanner_python/
     python pulldata.py

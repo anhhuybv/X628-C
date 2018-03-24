@@ -1,64 +1,36 @@
-import sys
-sys.path.append("zklib")
-from zklib import zklib
-from flask import Flask, url_for, request, render_template
-import psycopg2
+# import sys
+# sys.path.append("zklib")
+from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+app = Flask("__name_")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:123@localhost:5432/postgres'
+db = SQLAlchemy(app)
 
-# Connect to database
-try:
-    connection = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "127.0.0.1", port = "5432")
-    print ("Connected database successfully")
-    cursor = connection.cursor()
-except:
-    print ("Unable to connect to the database")
 
-# Connect to device X628
-# zk = zklib.ZKLib("192.168.1.200", 4370)
-# statusConnect = zk.connect()
-# if statusConnect:
-#     print "Connected to device"
-# else:
-#     print "No connected to devive"
+class Data(db.Model):
+    uid = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, unique=False)
+    date = db.Column(db.String(120), unique=False)
+    time = db.Column(db.String(120), unique=False)
 
-# if __name__ == "__main__":
-    # app.secret_key = os.urandom(12)
-    # app.run(debug=True, host='127.0.0.1', port=8080)
+    def __init__(self, id, date, time):
+        self.id = id
+        self.date = date
+        self.time = time
+
 
 # Show data update
 @app.route("/")
-def showdata():
-    #flash ('Connect to device:' + str(statusConnect))
-    h = []
-    cursor.execute("SELECT * FROM datatable")
-    data = cursor.fetchall()
-    # print("Data: ", current.execute("SELECT * FROM datatable"))
-    # rows3 = current.fetchall()
-    for cat in data:
-        print("Eah: {0}".format(cat))
-    # for data in rows3:
-    #     if 1000 > data[4] >= 1:
-    #         data = list(data)
-    #         data[4] = 'co mat'
-    #         data = tuple(data)
-    #     elif 1000000 > data[4] >= 1000:
-    #         data = list(data)
-    #         data[4] = 'nua ngay'
-    #         data = tuple(data)
-    #     elif data[4] >= 1000000:
-    #         data = list(data)
-    #         data[4] = 'ca ngay'
-    #         data = tuple(data)
-    #     data = list(data)
-    #     data = tuple(data)
-        h.insert((cat[0], cat[1], cat[2], cat[3], cat[4], cat[5], cat[6], cat[7], cat[8],cat[9]))
-    return render_template('showData.html', showdata=h)
+def showData():
+    times = Data.query.all()
+    return render_template('showData.html', showdata=times)
 
 
+if __name__ == "__main__":
+    app.run()
 
-# app.config.from_object(__name__)
-# app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 #
 #
 # class ReusableForm(Form):
@@ -137,7 +109,6 @@ def showdata():
 #         return render_template('delete.html', form=form)
 # 
 # 
-
 
 
 # Hien thi thong ke
@@ -335,4 +306,3 @@ def showdata():
 # def none():
 #     session['logged_in'] = False
 #     return showData()
-

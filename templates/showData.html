@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Show data Update</title>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-  <style>
+    <meta charset="UTF-8">
+    <title>Show data Update</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <style>
   
   input.MyButton {
     width: 100px;
@@ -128,99 +128,93 @@
     table.dataTable.display tbody tr:hover {
     background-color: #00000038;
 }
-</style>
+
+    </style>
 </head>
 <body>
-  <input type="button" class="MyButton" value="Login" onclick="window.location.href='/auth'" />
-  <h3 style="color:#147698">
+<input type="button" class="MyButton" value="Login" onclick="window.location.href='/auth'"/>
+<h3 style="color:#147698">
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-    
+
     {% for message in messages %}
     {% if "Error" not in message[1]: %}
     <div class="alert alert-info">
-      <strong> </strong> {{ message[1] }}
+        <strong> </strong> {{ message[1] }}
     </div>
     {% endif %}
-    
+
     {% if "Error" in message[1]: %}
     <div class="alert alert-warning">
-      {{ message[1] }}
+        {{ message[1] }}
     </div>
     {% endif %}
     {% endfor %}
     {% endif %}
     {% endwith %}
-  </h3>
-  <h3 style="color:#147698"><span id="timenow"></span> Week: <span id="week"></span></h3>
-  <table id="example" class="display" cellspacing="0" width="100%">
+</h3>
+<h3 style="color:#147698"><span id="timenow"></span> Week: <span id="week"></span></h3>
+<table id="example" class="display" cellspacing="0" width="100%">
     <thead>
-      <tr style="text-align:left; padding: 10px 0px;">
-          <th></th>
-          <th>ID</th>
-          <th>Tên</th>
-          <th>Ngày</th>
-          <th>Trạng thái</th>
-          <th>Thời gian vào</th>
-          <th>Thời gian ra</th>
-          <th>Muộn</th>
-      </tr>
+    <tr style="text-align:left; padding: 10px 0px;">
+        <th></th>
+        <th>ID</th>
+        <th>Tên</th>
+        <th>Ngày</th>
+        <th>Trạng thái</th>
+        <th>Thời gian vào</th>
+        <th>Thời gian ra</th>
+        <th>Muộn</th>
+    </tr>
     </thead>
 
     <tbody>
-      {% for a in showdata %}
-      <tr>
-        <th></th>
-        <td>{{ a[1] }}</td>
-        <td>{{ a[2] }}</td>
-        <td>{{ a[3] }}</td>
-        <td>{{ a[4] }}</td>
-        <td>{{ a[5] }}</td>
-        <td>{{ a[6] }}</td>
-        <td>{{ a[8] }}</td>
-      </tr>
-      {% endfor %}
+    {% for data in showdata %}
+    <li>{{data.id}} {{data.date}} - {{data.time}}</li>
+    {% endfor %}
     </tbody>
-  </table>
-  <input style="width: 220px; margin-top:50px;" type="button" class="MyButton" value="Dữ liệu thống kê" onclick="window.location.href='/get'" />
-  <br>
+</table>
+<input style="width: 220px; margin-top:50px;" type="button" class="MyButton" value="Dữ liệu thống kê"
+       onclick="window.location.href='/get'"/>
+<br>
 
 
-
-  <button id="myBtn" class="MyButton" style="float:left">Hướng dẫn</button>
-  <div id="myModal" class="modal">
+<button id="myBtn" class="MyButton" style="float:left">Hướng dẫn</button>
+<div id="myModal" class="modal">
     <div class="modal-content">
-      <div class="modal-header">
-        <span class="close">&times;</span>
-        <h2>Hướng dẫn</h2>
-      </div>
-      <div class="modal-body">
-        <p>Chào các bạn. Chúc các bạn một ngày vui vẻ!</p>
-        
-        <p>Dữ liệu vân tay được sử dụng để theo dõi thời gian học tập của các bạn. </p>
-        <p>Thời gian sẽ được tính mỗi khi quét vân tay.</p>
-        <p>Mỗi ngày các bạn quét 2 lần: lúc đến lớp và lúc ra về. (Time in và time out)</p>
-        <p>Nếu quét sau 09:00:00, 14:00:00 sẽ tính thời gian đi muộn.</p>
-        <p><b>Trạng thái hiện tại</b></p>
-        <p style="text-indent: 50px;"><b>Halfday: Nửa ngày. - </b>Nếu lớn hơn 3h sẽ tính một buổi sáng/chiều. </p>
-        <p style="text-indent: 50px;"><b>Fullday: Cả ngày. - </b>Nếu lớn hơn 8h sẽ tính cả ngày (cộng cả 2 tiếng nghỉ trưa).</p>
-        <p style="text-indent: 50px;"><b>Có mặt. - </b>Nếu chưa có time in hoặc time out hoặc nhỏ hơn 3h</p>
-        
-        <p>* Nếu các bạn quét nhiều lần trong ngày, lần đầu tính là time in - lần cuối là time out </p>
-      </div>
-      <div class="modal-footer">
-        <h3>Techmaster</h3>
-      </div>
-    </div>
-    
-  </div>
+        <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2>Hướng dẫn</h2>
+        </div>
+        <div class="modal-body">
+            <p>Chào các bạn. Chúc các bạn một ngày vui vẻ!</p>
 
-  <script>
+            <p>Dữ liệu vân tay được sử dụng để theo dõi thời gian học tập của các bạn. </p>
+            <p>Thời gian sẽ được tính mỗi khi quét vân tay.</p>
+            <p>Mỗi ngày các bạn quét 2 lần: lúc đến lớp và lúc ra về. (Time in và time out)</p>
+            <p>Nếu quét sau 09:00:00, 14:00:00 sẽ tính thời gian đi muộn.</p>
+            <p><b>Trạng thái hiện tại</b></p>
+            <p style="text-indent: 50px;"><b>Halfday: Nửa ngày. - </b>Nếu lớn hơn 3h sẽ tính một buổi sáng/chiều. </p>
+            <p style="text-indent: 50px;"><b>Fullday: Cả ngày. - </b>Nếu lớn hơn 8h sẽ tính cả ngày (cộng cả 2 tiếng
+                nghỉ trưa).</p>
+            <p style="text-indent: 50px;"><b>Có mặt. - </b>Nếu chưa có time in hoặc time out hoặc nhỏ hơn 3h</p>
+
+            <p>* Nếu các bạn quét nhiều lần trong ngày, lần đầu tính là time in - lần cuối là time out </p>
+        </div>
+        <div class="modal-footer">
+            <h3>Techmaster</h3>
+        </div>
+    </div>
+
+</div>
+
+<script>
    $(document).ready(function() {
     $('#example').DataTable( {
       "pagingType": "full_numbers"
     } );
   } );
+
 </script>
 <script>
   document.getElementById("timenow").innerHTML = Date();
@@ -231,6 +225,7 @@
   var now = new Date();
   var weekNumber = now.getWeek();
   document.getElementById("week").innerHTML = weekNumber;
+
 </script>
 <script>
   var modal = document.getElementById('myModal');
@@ -247,5 +242,6 @@
       modal.style.display = "none";
     }
   }
+
 </script>
 </body>
