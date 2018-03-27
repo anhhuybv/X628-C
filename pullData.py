@@ -1,15 +1,18 @@
 import sys
+
 sys.path.append("zklib")
 from zklib import zklib
 import psycopg2
+import datetime
+import pydash
 
 # Connect to database
 currentDB = None
-current = None
+cur = None
 try:
-    connectDB = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "127.0.0.1", port = "5432")
+    connectDB = psycopg2.connect(database="postgres", user="postgres", password="123", host="127.0.0.1", port="5432")
     print ("Connected database successfully")
-    current = connectDB.cursor()
+    cur = connectDB.cursor()
 except:
     print ("Unable to connect to the database")
 
@@ -24,20 +27,72 @@ else:
 # Pulling data
 if statusConnect:
     attendance = zk.getAttendance()
-    current.execute("DELETE FROM datatable")
-
-    cout = 0
-    dataTemp = attendance[0][0]
-
+    cur.execute("DELETE FROM datatable")
+    users = zk.getUser()
+    tempDate = zk.getTime().date()
+    # Pull data swipe
     for attData in attendance:
-        dataTime = ({"iduser": format(attData[0]), "date": format(attData[2].date()), "time": format(attData[2].time())})
-        print ("IDUser : %s, Date: %s, Time: %s" % (attData[0],attData[2].date(), attData[2].time()))
-        current.execute("INSERT INTO datatable (id,date,time) VALUES (%(iduser)s, %(date)s, %(time)s)", dataTime)
-        cout += 1
+        for uid in users:  # Get name user
+            if users[uid][0] == attData[0]:
+                nameUser = users[uid][1]
+        dataTime = ({"iduser": format(attData[0]), "name": nameUser, "date": format(attData[2].date()),
+                     "time": format(attData[2].time()), "method_swipe": format(attData[1])})
+        cur.execute(
+            "INSERT INTO datatable (iduser,name,date,time,method_swipe) VALUES (%(iduser)s, %(name)s, %(date)s, %(time)s, %(method_swipe)s)",
+            dataTime)
     connectDB.commit()
+
+    # Calculate time
+    maxTime = None
+    minTime = None
+    dateNow = datetime.date.today()
+
+    timeTempIn = datetime.time(9, 0, 0) # Time in
+    timeTempOut = datetime.time(18, 0, 0) # Time out
+    timeTempLate = datetime.time()
+    timeTempEarly = datetime.time()
+
+    arrayTime = pydash.map_(attendance, '2')
+    arrayID = pydash.map_(attendance, '0')
+
+    for uid in users:
+        idUser = users[uid][0]
+        maxTime = datetime.time()
+        minTime = datetime.time()
+        dateNow = datetime.date.today()
+        cur.execute(
+            "SELECT time FROM datatable WHERE date = '" + str(dateNow) + "' AND iduser = " + str(idUser) + "")
+        dataQuery = cur.fetchall()
+        cur.execute(
+            "SELECT iduser,date FROM timetable WHERE date = '" + str(dateNow) + "' AND iduser = " + str(idUser) + "")
+        dataTempDate = cur.fetchall()
+        for i in dataTempDate:
+
+
+            print(dataTempDate)
+        # Sort data after query
+        sorted(dataQuery)
+        if len(dataQuery) > 0:
+            for i in dataQuery[0]:
+                minTime = i
+            for j in dataQuery[len(dataQuery) - 1]:
+                maxTime = j
+            if minTime <= timeTempIn:
+                timeTempEarly = datetime.time(timeTempIn.hour - minTime.hour, timeTempIn.minute - minTime.minute,
+                                              timeTempIn.second - minTime.second)
+            elif maxTime >= timeTempIn:
+                timeTempLate = datetime.time(maxTime.hour - timeTempIn.hour, maxTime.minute - timeTempIn.minute,
+                                             maxTime.second - timeTempIn.second)
+            dataInsert = ({"iduser": format(idUser), "name": format(users[uid][1]), "timein": format(minTime),
+                           "date": format(dateNow), "timeout": format(maxTime), "timeearly": format(timeTempEarly),
+                           "timelate": format(timeTempLate)})
+            cur.execute(
+                "INSERT INTO timetable (iduser,name,date,timein,timeout,timelate,timeearly) VALUES (%(iduser)s, %(name)s, %(date)s, %(timein)s, %(timeout)s, %(timelate)s,%(timeearly)s)",
+                dataInsert)
+            connectDB.commit()
     connectDB.close()
-    current.close()
-    print ("Done pulling data")
+    cur.close()
+    zk.clearAttendance()
     zk.disconnect()
 else:
     print ("Can't pulling data")

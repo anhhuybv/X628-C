@@ -1,43 +1,34 @@
 # import sys
 # sys.path.append("zklib")
+import psycopg2
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
 
-app = Flask("__name_")
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:123@localhost:5432/postgres'
-db = SQLAlchemy(app)
+app = Flask("__name__")
 
-
-class Data(db.Model):
-    uid = db.Column(db.Integer, primary_key=True)
-    id = db.Column(db.Integer, unique=False)
-    date = db.Column(db.String(120), unique=False)
-    time = db.Column(db.String(120), unique=False)
-
-    def __init__(self, id, date, time):
-        self.id = id
-        self.date = date
-        self.time = time
+# Connect database
+connectDB = None
+cur = None
+try:
+    connectDB = psycopg2.connect(database="postgres", user="postgres", password="123", host="127.0.0.1", port="5432")
+    print ("Connected database successfully")
+    cur = connectDB.cursor()
+except:
+    print ("Unable to connect to the database")
 
 
 # Show data update
 @app.route("/")
 def showData():
-    times = Data.query.all()
-    return render_template('showData.html', showdata=times)
+    arrayData = []
+    cur.execute("SELECT * FROM datatable")
+    data = cur.fetchall()
+    for i in data:
+        arrayData.insert(0, (i[0], i[1], i[2], i[3], i[4], i[5]))
+    return render_template('showData.html', showdata=arrayData)
 
 
 if __name__ == "__main__":
-    app.run()
-
-#
-#
-# class ReusableForm(Form):
-#     name = TextField('Name:', validators=[validators.required(), validators.Length(min=1, max=20)])
-#     id = TextField('ID:', validators=[validators.required(), validators.Length(min=1, max=4)])
-#     password = TextField('Password:', validators=[])
-
+    app.run(port=8080)
 
 # ############### tao user #########################################
 # @app.route("/create", methods=['GET', 'POST'])

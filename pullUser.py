@@ -1,13 +1,14 @@
 import psycopg2
+
 from zklib import zklib
 
 # Connect to database
 connectDB = None
-current = None
+cur = None
 try:
-    connectDB = psycopg2.connect(database="postgres", user = "postgres", password = "123", host = "localhost", port = "5432")
+    connectDB = psycopg2.connect(database="postgres", user="postgres", password="123", host="localhost", port="5432")
     print ("Connected database successfully")
-    current = connectDB.cursor()
+    cur = connectDB.cursor()
 except:
     print ("Unable to connect to the database")
 
@@ -24,7 +25,7 @@ if statusConnect:
     print ("Start pulling data")
     users = zk.getUser()
     # Delete data table
-    current.execute("DELETE FROM usertable")
+    cur.execute("DELETE FROM usertable")
     # Pull data to table
     for uid in users:
         print ('  UID        : {}'.format(uid))
@@ -33,11 +34,10 @@ if statusConnect:
         print ('  Privilege  : {}'.format(users[uid][2]))
         print ('  Password   : {}'.format(users[uid][3]))
         dataUsers = ({"uid": format(uid), "iduser": format(users[uid][0]), "name": format(users[uid][1]), "privilege": format(users[uid][2]), "password": format(users[uid][3])})
-        current.execute("INSERT INTO usertable (uid,iduser,name,privilege,password) VALUES (%(uid)s, %(iduser)s, %(name)s, %(privilege)s, %(password)s)", dataUsers)
-
+        cur.execute("INSERT INTO usertable (uid,iduser,name,privilege,password) VALUES (%(uid)s, %(iduser)s, %(name)s, %(privilege)s, %(password)s)", dataUsers)
     connectDB.commit()
     connectDB.close()
-    current.close()
+    cur.close()
     print ("Done pulling user")
     zk.disconnect()
 else:

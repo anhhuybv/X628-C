@@ -129,6 +129,7 @@
     background-color: #00000038;
 }
 
+
     </style>
 </head>
 <body>
@@ -136,14 +137,12 @@
 <h3 style="color:#147698">
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-
     {% for message in messages %}
     {% if "Error" not in message[1]: %}
     <div class="alert alert-info">
         <strong> </strong> {{ message[1] }}
     </div>
     {% endif %}
-
     {% if "Error" in message[1]: %}
     <div class="alert alert-warning">
         {{ message[1] }}
@@ -153,6 +152,7 @@
     {% endif %}
     {% endwith %}
 </h3>
+<button name="button" value="OK" type="button">Click Me </button>
 <h3 style="color:#147698"><span id="timenow"></span> Week: <span id="week"></span></h3>
 <table id="example" class="display" cellspacing="0" width="100%">
     <thead>
@@ -169,8 +169,17 @@
     </thead>
 
     <tbody>
-    {% for data in showdata %}
-    <li>{{data.id}} {{data.date}} - {{data.time}}</li>
+    {% for a in showdata %}
+    <tr>
+        <th></th>
+        <td>{{ a[1] }}</td>
+        <td>{{ a[2] }}</td>
+        <td>{{ a[3] }}</td>
+        <td>{{ a[4] }}</td>
+        <td>{{ a[5] }}</td>
+        <td>{{ a[6] }}</td>
+        <td>{{ a[8] }}</td>
+    </tr>
     {% endfor %}
     </tbody>
 </table>
@@ -215,6 +224,7 @@
     } );
   } );
 
+
 </script>
 <script>
   document.getElementById("timenow").innerHTML = Date();
@@ -225,6 +235,7 @@
   var now = new Date();
   var weekNumber = now.getWeek();
   document.getElementById("week").innerHTML = weekNumber;
+
 
 </script>
 <script>
@@ -242,6 +253,7 @@
       modal.style.display = "none";
     }
   }
+
 
 </script>
 </body>
