@@ -3,6 +3,6 @@
 
 #    python pullData.py &
 #    python pullUser.py &
-#    python control.py
+#    python view.py
 export FLASK_APP=control.py
 flask run --reload --debugger

@@ -53,46 +53,49 @@ if statusConnect:
     timeTempEarly = datetime.time()
 
     arrayTime = pydash.map_(attendance, '2')
-    arrayID = pydash.map_(attendance, '0')
-
+    # print(arrayTime)
     for uid in users:
-        idUser = users[uid][0]
-        maxTime = datetime.time()
-        minTime = datetime.time()
-        dateNow = datetime.date.today()
         cur.execute(
-            "SELECT time FROM datatable WHERE date = '" + str(dateNow) + "' AND iduser = " + str(idUser) + "")
-        dataQuery = cur.fetchall()
-        cur.execute(
-            "SELECT iduser,date FROM timetable WHERE date = '" + str(dateNow) + "' AND iduser = " + str(idUser) + "")
+            "SELECT iduser FROM timetable WHERE date = '" + str(dateNow) + "' AND iduser = " + str(users[uid][0]) + "")
         dataTempDate = cur.fetchall()
-        for i in dataTempDate:
-
-
-            print(dataTempDate)
-        # Sort data after query
-        sorted(dataQuery)
-        if len(dataQuery) > 0:
-            for i in dataQuery[0]:
-                minTime = i
-            for j in dataQuery[len(dataQuery) - 1]:
-                maxTime = j
-            if minTime <= timeTempIn:
-                timeTempEarly = datetime.time(timeTempIn.hour - minTime.hour, timeTempIn.minute - minTime.minute,
-                                              timeTempIn.second - minTime.second)
-            elif maxTime >= timeTempIn:
-                timeTempLate = datetime.time(maxTime.hour - timeTempIn.hour, maxTime.minute - timeTempIn.minute,
-                                             maxTime.second - timeTempIn.second)
-            dataInsert = ({"iduser": format(idUser), "name": format(users[uid][1]), "timein": format(minTime),
-                           "date": format(dateNow), "timeout": format(maxTime), "timeearly": format(timeTempEarly),
-                           "timelate": format(timeTempLate)})
+    print(dataTempDate)
+    tempCheck = False
+    if len(dataTempDate) == 0:
+        tempCheck = True
+    else:
+        tempCheck = False
+    if tempCheck:
+        for uid in users:
+            idUser = users[uid][0]
+            maxTime = datetime.time()
+            minTime = datetime.time()
+            dateNow = datetime.date.today()
             cur.execute(
-                "INSERT INTO timetable (iduser,name,date,timein,timeout,timelate,timeearly) VALUES (%(iduser)s, %(name)s, %(date)s, %(timein)s, %(timeout)s, %(timelate)s,%(timeearly)s)",
-                dataInsert)
-            connectDB.commit()
+                "SELECT time FROM datatable WHERE date = '" + str(dateNow) + "' AND iduser = " + str(idUser) + "")
+            dataQuery = cur.fetchall()
+            # Sort data after query
+            sorted(dataQuery)
+            if len(dataQuery) > 0:
+                for i in dataQuery[0]:
+                    minTime = i
+                for j in dataQuery[len(dataQuery) - 1]:
+                    maxTime = j
+                if minTime <= timeTempIn:
+                    timeTempEarly = datetime.time(timeTempIn.hour - minTime.hour, timeTempIn.minute - minTime.minute,
+                                                  timeTempIn.second - minTime.second)
+                elif maxTime >= timeTempIn:
+                    timeTempLate = datetime.time(maxTime.hour - timeTempIn.hour, maxTime.minute - timeTempIn.minute,
+                                                 maxTime.second - timeTempIn.second)
+                dataInsert = ({"iduser": format(idUser), "name": format(users[uid][1]), "timein": format(minTime),
+                               "date": format(dateNow), "timeout": format(maxTime), "timeearly": format(timeTempEarly),
+                               "timelate": format(timeTempLate)})
+                cur.execute(
+                    "INSERT INTO timetable (iduser,name,date,timein,timeout,timelate,timeearly) VALUES (%(iduser)s, %(name)s, %(date)s, %(timein)s, %(timeout)s, %(timelate)s,%(timeearly)s)",
+                    dataInsert)
+                connectDB.commit()
     connectDB.close()
     cur.close()
-    zk.clearAttendance()
+    # zk.clearAttendance()
     zk.disconnect()
 else:
     print ("Can't pulling data")
