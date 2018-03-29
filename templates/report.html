@@ -1,9 +1,9 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>>
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <title>Statistic</title>
+    <title>Báo cáo</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
@@ -21,13 +21,13 @@
             float: right;
             margin: 10px;
         }
-        
+
         input.MyButton:hover {
             color: #fff;
             background: #0270cf;
             border: 1px solid #fff;
         }
-        
+
         .modal {
             display: none;
             position: fixed;
@@ -41,7 +41,7 @@
             background-color: rgb(0, 0, 0);
             background-color: rgba(0, 0, 0, 0.4);
         }
-        
+
         .modal-content {
             position: relative;
             background-color: #fefefe;
@@ -55,7 +55,7 @@
             animation-name: animatetop;
             animation-duration: 0.4s
         }
-        
+
         @-webkit-keyframes animatetop {
             from {
                 top: -300px;
@@ -66,7 +66,7 @@
                 opacity: 1
             }
         }
-        
+
         @keyframes animatetop {
             from {
                 top: -300px;
@@ -77,38 +77,38 @@
                 opacity: 1
             }
         }
-        
+
         .close {
             color: white;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
-        
+
         .close:hover,
         .close:focus {
             color: #000;
             text-decoration: none;
             cursor: pointer;
         }
-        
+
         .modal-header {
             padding: 2px 16px;
             background-color: #337ab7;
             color: white;
         }
-        
+
         .modal-body {
             padding: 2px 16px;
         }
-        
+
         .modal-footer {
             padding: 2px 16px;
             background-color: #337ab7;
             color: white;
         }
-        
-        /* .MyButton {
+
+        .MyButton {
             width: 150px;
             padding: 10px;
             cursor: pointer;
@@ -119,19 +119,20 @@
             border-radius: 5px;
             float: right;
             margin: 10px;
-        } */
-        
+        }
+
         .MyButton:hover {
             color: #fff;
             background: #0270cf;
             border: 1px solid #fff;
         }
-        
+
         table.dataTable.display tbody tr:hover {
             background-color: #00000039;
         }
 
-        th,td {
+        th,
+        td {
             width: 20%;
         }
     </style>
@@ -142,16 +143,16 @@
     <input type="button" class="MyButton" value="Tháng" />
     <input type="button" class="MyButton" value="Tuần" />
     <input type="button" class="MyButton" value="Ngày" />
-    <h1 style="color:#147698"> Dữ liệu thống kê từ
-        <!-- {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for message in messages %} {% if "Error" not in message[1]: %} -->
-        <!-- <div class="alert alert-info"> -->
-            <!-- <strong> </strong> {{ message[1] }} -->
-        <!-- </div> -->
-        <!-- {% endif %} {% if "Error" in message[1]: %} -->
-        <!-- <div class="alert alert-warning"> -->
-            <!-- {{ message[1] }} -->
-        <!-- </div> -->
-        <!-- {% endif %} {% endfor %} {% endif %} {% endwith %} -->
+    <h1 style="color:#147698"> Dữ liệu thống kê từ {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for message
+        in messages %} {% if "Error" not in message[1]: %}
+        <div class="alert alert-info">
+            <strong> </strong> {{ message[1] }}
+        </div>
+        {% endif %} {% if "Error" in message[1]: %}
+        <div class="alert alert-warning">
+            {{ message[1] }}
+        </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %}
     </h1>
     <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
@@ -164,7 +165,7 @@
             </tr>
         </thead>
         <tbody>
-            <!-- {% for a in statistic %} -->
+            {% for a in statistic %}
             <tr>
                 <td>{{ a[0] }}</td>
                 <td>{{ a[1] }}</td>
@@ -172,11 +173,11 @@
                 <td>{{ a[3] }}</td>
                 <td>{{ a[4] }}</td>
             </tr>
-            <!-- {% endfor %} -->
+            {% endfor %}
         </tbody>
     </table>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#example').DataTable({
                 "pagingType": "full_numbers"
             });
@@ -184,7 +185,7 @@
     </script>
     <script>
         document.getElementById("timenow").innerHTML = Date();
-        Date.prototype.getWeek = function() {
+        Date.prototype.getWeek = function () {
             var jan4th = new Date(this.getFullYear(), 0, 4);
             return Math.ceil((((this - jan4th) / 86400000) + jan4th.getDay() + 1) / 7);
         }
@@ -207,7 +208,9 @@
                 <p>Thời gian sẽ được tính mỗi khi quét vân tay.</p>
                 <p>Mỗi ngày các bạn quét 2 lần: lúc đến lớp và lúc ra về. (Time in và time out)</p>
                 <p>Nếu quét sau 09:00:00, 14:00:00 sẽ tính thời gian đi muộn.</p>
-                <p><b>Tổng thời gian từ lúc đến lớp và lúc ra về: (Timeout trừ timein)</b></p>
+                <p>
+                    <b>Tổng thời gian từ lúc đến lớp và lúc ra về: (Timeout trừ timein)</b>
+                </p>
                 <p style="text-indent: 50px;">Nếu lớn hơn 3h sẽ tính nửa ngày. </p>
                 <p style="text-indent: 50px;">Nếu lớn hơn 8h sẽ tính cả ngày (cộng cả 2 tiếng nghỉ trưa).</p>
                 <p style="text-indent: 50px;">Nếu nhỏ hơn 3h hoặc quên không quét lúc đến lớp hoặc lúc ra về sẽ tính là quét thiếu.</p>
@@ -222,16 +225,18 @@
         var modal = document.getElementById('myModal');
         var btn = document.getElementById("myBtn");
         var span = document.getElementsByClassName("close")[0];
-        btn.onclick = function() {
+        btn.onclick = function () {
             modal.style.display = "block";
         }
-        span.onclick = function() {
+        span.onclick = function () {
             modal.style.display = "none";
         }
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
     </script>
 </body>
+
+</html>
