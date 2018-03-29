@@ -1,9 +1,9 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <title>Show data Update</title>
+    <title>Dữ liệu cập nhật</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
@@ -21,13 +21,13 @@
             float: right;
             margin: 10px;
         }
-        
+
         input.MyButton:hover {
             color: #fff;
             background: #0270cf;
             border: 1px solid #fff;
         }
-        
+
         input.MyButton {
             width: 150px;
             padding: 10px;
@@ -41,13 +41,13 @@
             float: right;
             margin: 10px;
         }
-        
+
         input.MyButton:hover {
             color: #fff;
             background: #0270cf;
             border: 1px solid #fff;
         }
-        
+
         .modal {
             display: none;
             position: fixed;
@@ -61,7 +61,7 @@
             background-color: rgb(0, 0, 0);
             background-color: rgba(0, 0, 0, 0.4);
         }
-        
+
         .modal-content {
             position: relative;
             background-color: #fefefe;
@@ -75,7 +75,7 @@
             animation-name: animatetop;
             animation-duration: 0.4s
         }
-        
+
         @-webkit-keyframes animatetop {
             from {
                 top: -300px;
@@ -86,7 +86,7 @@
                 opacity: 1
             }
         }
-        
+
         @keyframes animatetop {
             from {
                 top: -300px;
@@ -97,37 +97,37 @@
                 opacity: 1
             }
         }
-        
+
         .close {
             color: white;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
-        
+
         .close:hover,
         .close:focus {
             color: #000;
             text-decoration: none;
             cursor: pointer;
         }
-        
+
         .modal-header {
             padding: 2px 16px;
             background-color: #337ab7;
             color: white;
         }
-        
+
         .modal-body {
             padding: 2px 16px;
         }
-        
+
         .modal-footer {
             padding: 2px 16px;
             background-color: #337ab7;
             color: white;
         }
-        
+
         .MyButton {
             width: 150px;
             padding: 10px;
@@ -140,13 +140,13 @@
             float: right;
             margin: 10px;
         }
-        
+
         .MyButton:hover {
             color: #fff;
             background: #0270cf;
             border: 1px solid #fff;
         }
-        
+
         table.dataTable.display tbody tr:hover {
             background-color: #00000038;
         }
@@ -154,10 +154,11 @@
 </head>
 
 <body>
-    <input type="button" class="MyButton" value="Login" onclick="window.location.href='/login'" />
+    <input type="button" class="MyButton" value="Đăng nhập" onclick="window.location.href='/login'" />
     <input type="button" class="MyButton" value="Báo cáo" onclick="window.location.href='/report'" />
     <h3 style="color:#147698">
-        {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for message in messages %} {% if "Error" not in message[1]: %}
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for message in messages %} {% if "Error"
+        not in message[1]: %}
         <div class="alert alert-info">
             <strong> </strong> {{ message[1] }}
         </div>
@@ -168,7 +169,10 @@
         {% endif %} {% endfor %} {% endif %} {% endwith %}
     </h3>
 
-    <h3 style="color:#147698"><span id="timenow"></span> Week: <span id="week"></span></h3>
+    <h3 style="color:#147698">
+        <span id="timenow"></span> Week:
+        <span id="week"></span>
+    </h3>
     <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
             <tr style="text-align:left; padding: 10px 0px;">
@@ -209,11 +213,15 @@
                 <p>Thời gian sẽ được tính mỗi khi quét vân tay.</p>
                 <p>Mỗi ngày các bạn quét 2 lần: lúc đến lớp và lúc ra về. (Time in và time out)</p>
                 <p>Nếu quét sau 09:00:00, 14:00:00 sẽ tính thời gian đi muộn.</p>
-                <p><b>Trạng thái hiện tại</b></p>
-                <p style="text-indent: 50px;"><b>Halfday: Nửa ngày. - </b>Nếu lớn hơn 3h sẽ tính một buổi sáng/chiều. </p>
-                <p style="text-indent: 50px;"><b>Fullday: Cả ngày. - </b>Nếu lớn hơn 8h sẽ tính cả ngày (cộng cả 2 tiếng nghỉ trưa).</p>
-                <p style="text-indent: 50px;"><b>Có mặt. - </b>Nếu chưa có time in hoặc time out hoặc nhỏ hơn 3h</p>
-
+                <p>
+                    <b>Trạng thái hiện tại</b>
+                </p>
+                <p style="text-indent: 50px;">
+                    <b>Halfday: Nửa ngày. - </b>Nếu lớn hơn 3h sẽ tính một buổi sáng/chiều. </p>
+                <p style="text-indent: 50px;">
+                    <b>Fullday: Cả ngày. - </b>Nếu lớn hơn 8h sẽ tính cả ngày (cộng cả 2 tiếng nghỉ trưa).</p>
+                <p style="text-indent: 50px;">
+                    <b>Có mặt. - </b>Nếu chưa có time in hoặc time out hoặc nhỏ hơn 3h</p>
                 <p>* Nếu các bạn quét nhiều lần trong ngày, lần đầu tính là time in - lần cuối là time out </p>
             </div>
             <div class="modal-footer">
@@ -224,7 +232,7 @@
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#example').DataTable({
                 "pagingType": "full_numbers"
             });
@@ -232,7 +240,7 @@
     </script>
     <script>
         document.getElementById("timenow").innerHTML = Date();
-        Date.prototype.getWeek = function() {
+        Date.prototype.getWeek = function () {
             var jan4th = new Date(this.getFullYear(), 0, 4);
             return Math.ceil((((this - jan4th) / 86400000) + jan4th.getDay() + 1) / 7);
         }
@@ -244,13 +252,13 @@
         var modal = document.getElementById('myModal');
         var btn = document.getElementById("myBtn");
         var span = document.getElementsByClassName("close")[0];
-        btn.onclick = function() {
+        btn.onclick = function () {
             modal.style.display = "block";
         }
-        span.onclick = function() {
+        span.onclick = function () {
             modal.style.display = "none";
         }
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
