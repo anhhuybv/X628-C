@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="32dbde56-cb48-4f9b-a290-0f02bedbbcee" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/control.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/hello.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/accept.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/create.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/js/jquery.datepicker.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/js/jquery.datepicker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/js/jquery.datepicker.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/js/jquery.datepicker.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/report.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/report.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/showData.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/showData.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/userOnline.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/view.py" beforeDir="false" />
-    </list>
+    <list default="true" id="32dbde56-cb48-4f9b-a290-0f02bedbbcee" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,8 +14,8 @@
       <file leaf-file-name="control.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/control.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="42" column="38" lean-forward="true" selection-start-line="42" selection-start-column="38" selection-end-line="42" selection-end-column="38" />
+            <state relative-caret-position="222">
+              <caret line="101" column="36" lean-forward="true" selection-start-line="101" selection-start-column="36" selection-end-line="101" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -269,26 +252,26 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="0" width="1922" height="1050" extended-state="6" />
+    <frame x="-1" y="0" width="1368" height="738" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23187633" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2313988" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50052685" side_tool="true" weight="0.30482456" />
-      <window_info anchor="right" x="0" y="0" width="430" height="850" id="Documentation" order="4" side_tool="true" weight="0.32995737" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49947312" weight="0.30482456" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50052685" side_tool="true" weight="0.30333334" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32894737" />
       <window_info anchor="bottom" id="Python Console" order="8" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49947312" weight="0.30482456" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.33552632" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39824945" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39824945" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" id="Data View" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32932165" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" x="0" y="0" width="430" height="850" id="Documentation" order="4" side_tool="true" weight="0.32995737" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
     </layout>
@@ -575,16 +558,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="21" column="32" lean-forward="true" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#56#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/control.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="42" column="38" lean-forward="true" selection-start-line="42" selection-start-column="38" selection-end-line="42" selection-end-column="38" />
+        <state relative-caret-position="222">
+          <caret line="101" column="36" lean-forward="true" selection-start-line="101" selection-start-column="36" selection-end-line="101" selection-end-column="36" />
         </state>
       </provider>
     </entry>
