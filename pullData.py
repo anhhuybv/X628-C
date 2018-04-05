@@ -3,7 +3,7 @@ import sys
 sys.path.append("zklib")
 from zklib import zklib
 import psycopg2
-import datetime
+import datetime, time
 import pydash
 
 # Connect to database
@@ -25,7 +25,7 @@ else:
     print ("No connected to devive")
 
 # Pulling data
-if statusConnect:
+while statusConnect:
     attendance = zk.getAttendance()
     cur.execute("DELETE FROM datatable")
     users = zk.getUser()
@@ -93,9 +93,9 @@ if statusConnect:
                     "INSERT INTO timetable (iduser,name,date,timein,timeout,timelate,timeearly) VALUES (%(iduser)s, %(name)s, %(date)s, %(timein)s, %(timeout)s, %(timelate)s,%(timeearly)s)",
                     dataInsert)
                 connectDB.commit()
-    connectDB.close()
-    cur.close()
+    time.sleep(300)
+    # connectDB.close()
+    # cur.close()
     # zk.clearAttendance()
-    zk.disconnect()
-else:
-    print ("Can't pulling data")
+    # zk.disconnect()
+

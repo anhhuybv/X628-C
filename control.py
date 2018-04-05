@@ -1,11 +1,11 @@
 # coding=<UTF-8>
 
 import sys
+
 sys.path.append("zklib")
 from flask import Flask, render_template, request, session, flash
 from wtforms import Form, TextField, validators
-import os
-import psycopg2
+import os, datetime,psycopg2
 
 DEBUG = True
 app = Flask("__name__")
@@ -24,9 +24,9 @@ except:
 
 
 class UserForm(Form):
-    name = TextField('Name:', validators=[validators.required()])
-    email = TextField('Email:', validators=[validators.required(), validators.Length(min=6, max=35)])
-    password = TextField('Password:', validators=[validators.required(), validators.Length(min=3, max=35)])
+    uid = TextField('uid:', validators=[validators.required(),validators.Length(min=1, max=35)])
+    id = TextField('iduser:', validators=[validators.required(), validators.Length(min=1, max=35)])
+    name = TextField('name:', validators=[validators.required(), validators.Length(min=1, max=35)])
 
 
 # Create user
@@ -34,15 +34,28 @@ class UserForm(Form):
 def createUser():
     if session.get('logged_in'):
         userForm = UserForm(request.form)
-        print(userForm.errors)
         if request.method == 'POST':
             uid = request.form['uid']
+            iduser = request.form['iduser']
+            name = request.form['name']
+            user = ({"uid": format(uid), "iduser": format(iduser), "name": format(name)})
+            cur.execute("INSERT INTO usertable (uid,iduser,name) VALUES (%(uid)s, %(iduser)s, %(name)s)", user)
+            connectDB.commit()
+        return render_template('createUser.html', form=userForm)
+    else:
+        return render_template('login.html')
+
+
+# Delete user
+@app.route("/deleteUser", methods=['GET', 'POST'])
+def delete():
+    if session.get('logged_in'):
+        deleteUserForm = UserForm(request.form)
+        print(deleteUserForm.errors)
+        if request.method == 'POST':
             userid = request.form['userid']
             name = request.form['name']
-        if userForm.validate():
-            print(userForm.validate())
-            flash('Complete append student ' + name)
-        return render_template('createUser.html', form=userForm)
+        return render_template('deleteUser.html', form=deleteUserForm)
     else:
         return render_template('login.html')
 
@@ -50,25 +63,50 @@ def createUser():
 # Show data update
 @app.route("/")
 def showData():
-    temp = []
+    arrayData = []
     cur.execute("SELECT * FROM timetable")
     data = cur.fetchall()
     for i in data:
-        temp.append(i)
-    return render_template('showData.html', showdata=temp)
+        arrayData.append(i)
+    return render_template('showData.html', showdata=arrayData)
 
 
-# Show report
-@app.route("/report", methods=['GET', 'POST'])
-def report():
-    k = []
-    return render_template('report.html', statistic=k)
+# Show report day
+@app.route("/reportDay", methods=['GET', 'POST'])
+def reportDay():
+    arrayData = []
+    dateNow = datetime.datetime.now().date()
+    cur.execute("SELECT * FROM timetable WHERE date = '" + str(dateNow) + "'")
+    data = cur.fetchall()
+    for i in data:
+        arrayData.append(i)
+    return render_template('reportDay.html', statistic=arrayData)
 
 
-# Delete student
-@app.route("/delete", methods=['GET', 'POST'])
-def delete():
-    return render_template('delete.html')
+# Show report week
+@app.route("/reportWeek", methods=['GET', 'POST'])
+def reportWeek():
+    arrayData = []
+    dateNow = datetime.datetime.now().date()
+    cur.execute("SELECT * FROM timetable WHERE (date >= date '" + str(dateNow) + "' - integer '7') AND date <= '" + str(dateNow) + "'")
+    data = cur.fetchall()
+    for i in data:
+        arrayData.append(i)
+    return render_template('reportWeek.html', statistic=arrayData)
+
+
+# Show report month
+@app.route("/reportMonth", methods=['GET', 'POST'])
+def reportMonth():
+    arrayData = []
+    dateNow = datetime.datetime.now().date()
+    tempDate = datetime.datetime.now().day
+    tempDate -= 1
+    cur.execute("SELECT * FROM timetable WHERE (date >= date '" + str(dateNow) + "' - integer '" + str(tempDate) + "') AND date <= '" + str(dateNow) + "'")
+    data = cur.fetchall()
+    for i in data:
+        arrayData.append(i)
+    return render_template('reportMonth.html', statistic=arrayData)
 
 
 # List user
@@ -96,7 +134,7 @@ def admin():
 
 @app.route('/login', methods=['POST'])
 def login():
-    if request.form['username'] == 'admin' and request.form['password'] == '1':
+    if request.form['username'] == '' and request.form['password'] == '':
         session['logged_in'] = True
     else:
         session['logged_in'] = False

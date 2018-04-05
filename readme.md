@@ -1,9 +1,7 @@
 #### install
     install python 2.7
 
-#### thư viện python
-
-    https://github.com/fananimi/pyzk
+#### thư viện python x628-c
     https://github.com/AlSayedGamal/python_zklib
 
 #### install postgresql

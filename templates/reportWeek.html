@@ -3,36 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Dữ liệu cập nhật</title>
+    <title>Báo cáo tuần</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <style>
         input.MyButton {
-            width: 100px;
-            padding: 10px;
-            cursor: pointer;
-            /* font-weight: bold; */
-            font-size: 100%;
-            background: #337ab7;
-            color: #fff;
-            border: 1px solid #337ab7;
-            border-radius: 5px;
-            float: right;
-            margin: 10px;
-        }
-
-        input.MyButton:hover {
-            color: #fff;
-            background: #0270cf;
-            border: 1px solid #fff;
-        }
-
-        input.MyButton {
             width: 150px;
             padding: 10px;
             cursor: pointer;
-            /* font-weight: bold; */
+            font-weight: bold;
             font-size: 100%;
             background: #337ab7;
             color: #fff;
@@ -148,19 +128,20 @@
         }
 
         table.dataTable.display tbody tr:hover {
-            background-color: #00000038;
+            background-color: #00000039;
+        }
+
+        th,
+        td {
+            width: 20%;
         }
     </style>
 </head>
 
 <body>
-    <input type="button" class="MyButton" value="Đăng nhập" onclick="window.location.href='/login'" />
-    <input type="button" class="MyButton" value="Ngày" onclick="window.location.href='/reportDay'" />
-    <input type="button" class="MyButton" value="Tuần" onclick="window.location.href='/reportWeek'" />
-    <input type="button" class="MyButton" value="Tháng" onclick="window.location.href='/reportMonth'" />
-    <h3 style="color:#147698">
-        {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for message in messages %} {% if "Error"
-        not in message[1]: %}
+    <input type="button" class="MyButton" value="Quay lại" onclick="window.location.href='/'"/>
+    <h1 style="color:#147698"> Dữ liệu thống kê của tuần hiện tại {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for message
+        in messages %} {% if "Error" not in message[1]: %}
         <div class="alert alert-info">
             <strong> </strong> {{ message[1] }}
         </div>
@@ -169,12 +150,7 @@
             {{ message[1] }}
         </div>
         {% endif %} {% endfor %} {% endif %} {% endwith %}
-    </h3>
-
-    <h3 style="color:#147698">
-        <span id="timenow"></span> Week:
-        <span id="week"></span>
-    </h3>
+    </h1>
     <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
             <tr style="text-align:left; padding: 10px 0px;">
@@ -187,9 +163,8 @@
                 <th>Sớm</th>
             </tr>
         </thead>
-
         <tbody>
-            {% for a in showdata %}
+            {% for a in statistic %}
             <tr>
                 <td>{{ a[1] }}</td>
                 <td>{{ a[2] }}</td>
@@ -202,37 +177,6 @@
             {% endfor %}
         </tbody>
     </table>
-    <button id="myBtn" class="MyButton" style="float:left">Hướng dẫn</button>
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close">&times;</span>
-                <h2>Hướng dẫn</h2>
-            </div>
-            <div class="modal-body">
-                <p>Chào các bạn. Chúc các bạn một ngày vui vẻ!</p>
-                <p>Dữ liệu vân tay được sử dụng để theo dõi thời gian học tập của các bạn. </p>
-                <p>Thời gian sẽ được tính mỗi khi quét vân tay.</p>
-                <p>Mỗi ngày các bạn quét 2 lần: lúc đến lớp và lúc ra về. (Time in và time out)</p>
-                <p>Nếu quét sau 09:00:00, 14:00:00 sẽ tính thời gian đi muộn.</p>
-                <p>
-                    <b>Trạng thái hiện tại</b>
-                </p>
-                <p style="text-indent: 50px;">
-                    <b>Halfday: Nửa ngày. - </b>Nếu lớn hơn 3h sẽ tính một buổi sáng/chiều. </p>
-                <p style="text-indent: 50px;">
-                    <b>Fullday: Cả ngày. - </b>Nếu lớn hơn 8h sẽ tính cả ngày (cộng cả 2 tiếng nghỉ trưa).</p>
-                <p style="text-indent: 50px;">
-                    <b>Có mặt. - </b>Nếu chưa có time in hoặc time out hoặc nhỏ hơn 3h</p>
-                <p>* Nếu các bạn quét nhiều lần trong ngày, lần đầu tính là time in - lần cuối là time out </p>
-            </div>
-            <div class="modal-footer">
-                <h3>Techmaster</h3>
-            </div>
-        </div>
-
-    </div>
-
     <script>
         $(document).ready(function () {
             $('#example').DataTable({
@@ -250,6 +194,34 @@
         var weekNumber = now.getWeek();
         document.getElementById("week").innerHTML = weekNumber;
     </script>
+
+    <button id="myBtn" class="MyButton">Hướng dẫn</button>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Hướng dẫn</h2>
+            </div>
+            <div class="modal-body">
+                <p>Chào các bạn. Chúc các bạn một ngày vui vẻ!</p>
+                <p>Dữ liệu vân tay được sử dụng để theo dõi thời gian học tập của các bạn. </p>
+                <p>Thời gian sẽ được tính mỗi khi quét vân tay.</p>
+                <p>Mỗi ngày các bạn quét 2 lần: lúc đến lớp và lúc ra về. (Time in và time out)</p>
+                <p>Nếu quét sau 09:00:00, 14:00:00 sẽ tính thời gian đi muộn.</p>
+                <p>
+                    <b>Tổng thời gian từ lúc đến lớp và lúc ra về: (Timeout trừ timein)</b>
+                </p>
+                <p style="text-indent: 50px;">Nếu lớn hơn 3h sẽ tính nửa ngày. </p>
+                <p style="text-indent: 50px;">Nếu lớn hơn 8h sẽ tính cả ngày (cộng cả 2 tiếng nghỉ trưa).</p>
+                <p style="text-indent: 50px;">Nếu nhỏ hơn 3h hoặc quên không quét lúc đến lớp hoặc lúc ra về sẽ tính là quét thiếu.</p>
+                <p>* Nếu các bạn quét nhiều lần trong ngày, lần đầu tính là time in - lần cuối là time out </p>
+            </div>
+            <div class="modal-footer">
+                <h3>Techmaster</h3>
+            </div>
+        </div>
+    </div>
     <script>
         var modal = document.getElementById('myModal');
         var btn = document.getElementById("myBtn");
@@ -267,3 +239,5 @@
         }
     </script>
 </body>
+
+</html>
