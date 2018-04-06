@@ -11,9 +11,9 @@
     sudo -u postgres psql postgres
     \password postgres
     
-    docker run --name TechDB -e POSTGRES_PASSWORD=123 -d -p 5432:5432 postgres:latest
+    docker run --name db-x628-c -e POSTGRES_PASSWORD=123 -d -p 5432:5432 postgres:latest
 	-----
-    docker exec -it -u postgres FingerDB psql
+    docker exec -it -u postgres db-x628-c psql
     
 	-----
     create table datatable (
