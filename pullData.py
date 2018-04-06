@@ -27,7 +27,7 @@ else:
 # Pulling data
 while statusConnect:
     attendance = zk.getAttendance()
-    cur.execute("DELETE FROM datatable")
+    #cur.execute("DELETE FROM datatable")
     users = zk.getUser()
     tempDate = zk.getTime().date()
     # Pull data swipe
@@ -40,7 +40,7 @@ while statusConnect:
         cur.execute(
             "INSERT INTO datatable (iduser,name,date,time,method_swipe) VALUES (%(iduser)s, %(name)s, %(date)s, %(time)s, %(method_swipe)s)",
             dataTime)
-    connectDB.commit()
+    #connectDB.commit()
 
     # Calculate time
     maxTime = None
@@ -52,7 +52,7 @@ while statusConnect:
     timeTempLate = datetime.time()
     timeTempEarly = datetime.time()
 
-    arrayTime = pydash.map_(attendance, '2')
+    #arrayTime = pydash.map_(attendance, '2')
     # print(arrayTime)
     for uid in users:
         cur.execute(
@@ -95,8 +95,3 @@ while statusConnect:
                 connectDB.commit()
     print("Pulling data is done")
     time.sleep(300)
-    # connectDB.close()
-    # cur.close()
-    # zk.clearAttendance()
-    # zk.disconnect()
-
