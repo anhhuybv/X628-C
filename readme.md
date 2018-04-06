@@ -1,21 +1,29 @@
-#### install
-    install python 2.7
+# Install and using x628-c on linux
+## Install environment
+    NOTE:
+    App to deployment and running on docker ( environment linux )
+    
+    ** Install python 2.7 **
+    apt-get update
+    apt-get upgrade
+    apt-get install python
+    apt-get install sudo
+    apt-get install git
+    
+    ** Install flask **
+    apt-get install python-pip
+    apt-get install python3-pip
+    pip install flask          
+    pip install wtforms
+    pip install psycopg2
+    pip install psycopg2-binary
 
-#### thư viện python x628-c
-    https://github.com/AlSayedGamal/python_zklib
-
-#### install postgresql
-    sudo apt-get install postgresql
-    sudo -i -u postgres
-    psql
+    ** Install postgresql **
+    apt-get install postgresql
     sudo -u postgres psql postgres
-    \password postgres
+    \password
     
-    docker run --name db-x628-c -e POSTGRES_PASSWORD=123 -d -p 5432:5432 postgres:latest
-	-----
-    docker exec -it -u postgres db-x628-c psql
-    
-	-----
+    ** Create table for database **
     create table datatable (
     numerical serial primary key not null,
     iduser int not null,
@@ -23,7 +31,7 @@
     date date not null,
     time time not null,
     method_swipe int not null);
-    -----
+    
     create table usertable (
     uid int primary key not null,
     iduser int not null,
@@ -31,7 +39,7 @@
     privilege text,
     password text,
     groupid text);
-    ---------------------------
+    
     create table timetable (
     numerical serial primary key not null,
     iduser int not null,
@@ -41,28 +49,18 @@
     timeout time,
     timelate time,
     timeearly time);
+    
+    
+## Running
+    git clone https://github.com/anhhuybv/X628-C.git
+    cd X628-C
+    ./run.sh
+    (username: admin, password: techmaster)
 
-----------
-#### install flask and pip
-    sudo apt install python-pip	    # python 2
-    sudo apt install python3-pip	# python 3
-    sudo pip install flask          
-    sudo pip install wtforms
-    sudo pip install psycopg2       # Read database
-    sudo pip install psycopg2-binary
-    sudo pip install Flask-SQLALchemy
+## SDK python x628-c
+    https://github.com/AlSayedGamal/python_zklib
 
-
-----------
-#### Run App
-    git clone https://github.com/long25vn/fingerprint_scanner_python.git
-    cd fingerprint_scanner_python/
-    python pulldata.py
-    python pulluser.py
-    python control.py
-
-file pushdata chạy liên tục để đẩy dữ liệu trên máy chấm công về cơ sở dữ liệu, file control.py đọc dữ liệu trong cơ sở dữ liệu và hiển thị.
-
-### chức năng và các hàm sử dụng note trong code, file control.py
-
-username: admin, password: techmaster
+## Command docker
+    docker run --name db-x628-c -e POSTGRES_PASSWORD=123 -d -p 5432:5432 postgres:9.6
+    docker exec -it x628-c /bin/bash
+    docker exec -it -u postgres db-x628-c psql
