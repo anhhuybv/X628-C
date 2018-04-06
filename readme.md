@@ -65,4 +65,4 @@ file pushdata chạy liên tục để đẩy dữ liệu trên máy chấm côn
 
 ### chức năng và các hàm sử dụng note trong code, file control.py
 
-username: techmaster, password: kubernetes2018
+username: admin, password: techmaster

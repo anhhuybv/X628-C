@@ -31,6 +31,7 @@ while statusConnect:
     data = cur.fetchall()
     for i in data:
         zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_ADMIN)
+    print("Pushing user is done")
     time.sleep(60)
     #users = zk.getUser()
     # Delete data table

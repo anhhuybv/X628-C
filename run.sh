@@ -3,4 +3,4 @@
 
     python pullData.py &
     python pushUser.py &
-    python view.py
+    python control.py

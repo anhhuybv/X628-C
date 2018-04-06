@@ -93,6 +93,7 @@ while statusConnect:
                     "INSERT INTO timetable (iduser,name,date,timein,timeout,timelate,timeearly) VALUES (%(iduser)s, %(name)s, %(date)s, %(timein)s, %(timeout)s, %(timelate)s,%(timeearly)s)",
                     dataInsert)
                 connectDB.commit()
+    print("Pulling data is done")
     time.sleep(300)
     # connectDB.close()
     # cur.close()

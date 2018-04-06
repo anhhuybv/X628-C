@@ -7,7 +7,7 @@ from flask import Flask, render_template, request, session, flash
 from wtforms import Form, TextField, validators
 import os, datetime,psycopg2
 
-DEBUG = True
+DEBUG = False
 app = Flask("__name__")
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
@@ -134,7 +134,7 @@ def admin():
 
 @app.route('/login', methods=['POST'])
 def login():
-    if request.form['username'] == '' and request.form['password'] == '':
+    if request.form['username'] == 'admin' and request.form['password'] == 'techmaster':
         session['logged_in'] = True
     else:
         session['logged_in'] = False
@@ -149,4 +149,4 @@ def logout():
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(port=8080)
+    app.run(port=80)
