@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append("zklib")
 
 import psycopg2, time
@@ -33,7 +34,7 @@ while statusConnect:
         zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_ADMIN)
     print("Pushing user is done")
     time.sleep(60)
-    #users = zk.getUser()
+    # users = zk.getUser()
     # Delete data table
     # zk.clearUser()
     # zk.setUser(uid=23, userid='23', name='Cao Anh Huy', password='1', role=zkconst.LEVEL_ADMIN)
@@ -52,4 +53,3 @@ while statusConnect:
     # cur.close()
     # print ("Done pushing user")
     # zk.disconnect()
-

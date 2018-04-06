@@ -1,13 +1,10 @@
-# coding=<UTF-8>
-
 import sys
 
 sys.path.append("zklib")
-from flask import Flask, render_template, request, session, flash
+from flask import Flask, render_template, request, session
 from wtforms import Form, TextField, validators
-import os, datetime,psycopg2
+import os, datetime, psycopg2
 
-DEBUG = False
 app = Flask("__name__")
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
@@ -24,7 +21,7 @@ except:
 
 
 class UserForm(Form):
-    uid = TextField('uid:', validators=[validators.required(),validators.Length(min=1, max=35)])
+    uid = TextField('uid:', validators=[validators.required(), validators.Length(min=1, max=35)])
     id = TextField('iduser:', validators=[validators.required(), validators.Length(min=1, max=35)])
     name = TextField('name:', validators=[validators.required(), validators.Length(min=1, max=35)])
 
@@ -88,7 +85,8 @@ def reportDay():
 def reportWeek():
     arrayData = []
     dateNow = datetime.datetime.now().date()
-    cur.execute("SELECT * FROM timetable WHERE (date >= date '" + str(dateNow) + "' - integer '7') AND date <= '" + str(dateNow) + "'")
+    cur.execute("SELECT * FROM timetable WHERE (date >= date '" + str(dateNow) + "' - integer '7') AND date <= '" + str(
+        dateNow) + "'")
     data = cur.fetchall()
     for i in data:
         arrayData.append(i)
@@ -102,7 +100,8 @@ def reportMonth():
     dateNow = datetime.datetime.now().date()
     tempDate = datetime.datetime.now().day
     tempDate -= 1
-    cur.execute("SELECT * FROM timetable WHERE (date >= date '" + str(dateNow) + "' - integer '" + str(tempDate) + "') AND date <= '" + str(dateNow) + "'")
+    cur.execute("SELECT * FROM timetable WHERE (date >= date '" + str(dateNow) + "' - integer '" + str(
+        tempDate) + "') AND date <= '" + str(dateNow) + "'")
     data = cur.fetchall()
     for i in data:
         arrayData.append(i)
@@ -149,4 +148,4 @@ def logout():
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(host='192.168.1.11',port=8000)
+    app.run(host='127.0.0.1', port=8080, debug=True)

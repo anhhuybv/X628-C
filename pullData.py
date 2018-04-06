@@ -4,7 +4,6 @@ sys.path.append("zklib")
 from zklib import zklib
 import psycopg2
 import datetime, time
-import pydash
 
 # Connect to database
 currentDB = None
@@ -27,7 +26,7 @@ else:
 # Pulling data
 while statusConnect:
     attendance = zk.getAttendance()
-    #cur.execute("DELETE FROM datatable")
+    # cur.execute("DELETE FROM datatable")
     users = zk.getUser()
     tempDate = zk.getTime().date()
     # Pull data swipe
@@ -40,19 +39,19 @@ while statusConnect:
         cur.execute(
             "INSERT INTO datatable (iduser,name,date,time,method_swipe) VALUES (%(iduser)s, %(name)s, %(date)s, %(time)s, %(method_swipe)s)",
             dataTime)
-    #connectDB.commit()
+    # connectDB.commit()
 
     # Calculate time
     maxTime = None
     minTime = None
     dateNow = datetime.date.today()
 
-    timeTempIn = datetime.time(9, 0, 0) # Time in
-    timeTempOut = datetime.time(18, 0, 0) # Time out
+    timeTempIn = datetime.time(9, 0, 0)  # Time in
+    timeTempOut = datetime.time(18, 0, 0)  # Time out
     timeTempLate = datetime.time()
     timeTempEarly = datetime.time()
 
-    #arrayTime = pydash.map_(attendance, '2')
+    # arrayTime = pydash.map_(attendance, '2')
     # print(arrayTime)
     for uid in users:
         cur.execute(
