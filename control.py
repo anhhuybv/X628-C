@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("zklib")
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session,flash
 from wtforms import Form, TextField, validators
 import os, datetime, psycopg2
 
@@ -47,12 +47,14 @@ def createUser():
 @app.route("/deleteUser", methods=['GET', 'POST'])
 def delete():
     if session.get('logged_in'):
-        deleteUserForm = UserForm(request.form)
-        print(deleteUserForm.errors)
+        deleteUser = UserForm(request.form)
         if request.method == 'POST':
-            userid = request.form['userid']
-            name = request.form['name']
-        return render_template('deleteUser.html', form=deleteUserForm)
+            iduser = request.form['iduser']
+            print(iduser)
+            user = ({"iduser": format(iduser)})
+            cur.execute("DELETE FROM usertable WHERE iduser = '" + str(iduser) + "'", user)
+            connectDB.commit()
+        return render_template('deleteUser.html', form=deleteUser)
     else:
         return render_template('login.html')
 
@@ -133,16 +135,17 @@ def admin():
 
 @app.route('/login', methods=['POST'])
 def login():
-    if request.form['username'] == 'admin' and request.form['password'] == 'techmaster':
+    if request.form['username'] == 'admin' and request.form['password'] == '1':
         session['logged_in'] = True
     else:
         session['logged_in'] = False
     return admin()
 
 
-@app.route("/")
+@app.route("/login")
 def logout():
     session['logged_in'] = False
+    print(session['logged_in'])
     return showData()
 
 

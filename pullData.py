@@ -51,13 +51,10 @@ while statusConnect:
     timeTempLate = datetime.time()
     timeTempEarly = datetime.time()
 
-    # arrayTime = pydash.map_(attendance, '2')
-    # print(arrayTime)
     for uid in users:
         cur.execute(
             "SELECT iduser FROM timetable WHERE date = '" + str(dateNow) + "' AND iduser = " + str(users[uid][0]) + "")
         dataTempDate = cur.fetchall()
-    print(dataTempDate)
     tempCheck = False
     if len(dataTempDate) == 0:
         tempCheck = True
@@ -93,4 +90,4 @@ while statusConnect:
                     dataInsert)
                 connectDB.commit()
     print("Pulling data is done")
-    time.sleep(300)
+    time.sleep(60)

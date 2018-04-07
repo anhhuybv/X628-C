@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Xóa sinh viên</title>
+  <title>Xóa học viên</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -12,69 +12,33 @@
     <div class="row">
       <div class="col-md-6 col-sm-6 col-xs-12">
         <h1 style="color:#147698; margin-top:20px; font-family: initial">
-          <b>Xóa dữ liệu học viên</b>
+          <b>Xóa học viên</b>
         </h1>
         <br>
         <br>
         <form class="form-horizontal" method="post" action="" role="form">
-          {{ form.csrf }}
-          <p style="color:#000000bd">
-            <i>Xem danh sách User hiện tại</i>
-          </p>
-          <div class="form-group ">
-            <label class="control-label col-sm-2" for="name">
-              User
-            </label>
-            <div class="col-sm-10">
-              <input type="button" class="btn btn-success " onclick="window.location.href='/user'" value="List User"></input>
-            </div>
-          </div>
-          {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for message in messages %} {% if "Error"
-          not in message[1]: %}
-          <div class="alert alert-info">
-            <strong> </strong> {{ message[1] }}
-          </div>
-          {% endif %} {% if "Error" in message[1]: %}
-          <div class="alert alert-warning">
-            {{ message[1] }}
-          </div>
-          {% endif %} {% endfor %} {% endif %} {% endwith %}
           <br>
           <p style="color:#000000bd">
-            <i>Nếu bạn chắc chắn muốn xóa, nhập lại chính xác xuống form bên dưới và DELETE</i>
+            <i>Nhập UID hoặc ID học viên để xóa</i>
           </p>
+
           <div class="form-group ">
-            <label class="control-label col-sm-2" for="uid">
-              UID
+            <label class="control-label col-sm-2" for="iduser">
+              ID học viên
             </label>
             <div class="col-sm-10">
-              <input class="form-control" id="uid" name="uid" type="text" />
+              <input class="form-control" id="iduser" name="iduser" type="text" />
             </div>
           </div>
-          <div class="form-group ">
-            <label class="control-label col-sm-2" for="id">
-              ID
-            </label>
-            <div class="col-sm-10">
-              <input class="form-control" id="id" name="id" type="text" />
-            </div>
-          </div>
-          <div class="form-group ">
-            <label class="control-label col-sm-2" for="name">
-              Name
-            </label>
-            <div class="col-sm-10">
-              <input class="form-control" id="name" name="name" type="text" />
-            </div>
-          </div>
+
           <div class="form-group">
             <div class="col-sm-10 col-sm-offset-2">
               <button class="btn btn-primary " name="submit" type="submit">
-                DELETE
+                Xóa
               </button>
-              <input type="button" class="btn btn-success " onclick="window.location.href='/logout'" value="Logout"></input>
             </div>
           </div>
+          <input type="button" class="MyButton" value="Quay lại" onclick="window.location.href='/login'"/>
         </form>
       </div>
     </div>
