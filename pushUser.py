@@ -10,7 +10,7 @@ from zklib import zklib, zkconst,zkdevice
 connectDB = None
 cur = None
 try:
-    connectDB = psycopg2.connect(database="postgres", user="postgres", password="123", host="localhost", port="5432")
+    connectDB = psycopg2.connect(database="postgres", user="postgres", password="123", host="127.0.0.1", port="5432")
     print ("Connected database successfully")
     cur = connectDB.cursor()
 except:
