@@ -56,7 +56,7 @@ while statusConnect:
             "SELECT iduser FROM timetable WHERE date = '" + str(dateNow) + "' AND iduser = " + str(users[uid][0]) + "")
         dataTempDate = cur.fetchall()
     tempCheck = False
-    if len(dataTempDate) == 0:
+    if dataTempDate == None:
         tempCheck = True
     else:
         tempCheck = False
@@ -89,5 +89,5 @@ while statusConnect:
                     "INSERT INTO timetable (iduser,name,date,timein,timeout,timelate,timeearly) VALUES (%(iduser)s, %(name)s, %(date)s, %(timein)s, %(timeout)s, %(timelate)s,%(timeearly)s)",
                     dataInsert)
                 connectDB.commit()
-    print("Pulling data is done")
+        print("Pulling data is done")
     time.sleep(300)
