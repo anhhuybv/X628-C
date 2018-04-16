@@ -25,19 +25,13 @@ else:
     print ("No connected to devive")
 
 # Pull data from device X628
-
-
 while statusConnect:
-    # print ("Start pushing user")
     cur.execute("SELECT uid,iduser,name FROM usertable")
     data = cur.fetchall()
     for i in data:
-        zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_ADMIN)
+        zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_USER)
+    print("Pushing user is done")
 
-    # print("Pushing user is done")
-    # zk.enableDevice()
-    # zk.restartDevice()
-    # zk.clearUser()
     # users = zk.getUser()
     # for uid in users:
     #     print ('  UID        : {}'.format(uid))
@@ -48,5 +42,4 @@ while statusConnect:
     #     dataUsers = ({"uid": format(uid), "iduser": format(users[uid][0]), "name": format(users[uid][1]), "privilege": format(1), "password": format(1)})
     #     cur.execute("INSERT INTO usertable (uid,iduser,name,privilege,password) VALUES (%(uid)s, %(iduser)s, %(name)s, %(privilege)s, %(password)s)", dataUsers)
     # connectDB.commit()
-
     time.sleep(60)
