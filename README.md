@@ -20,6 +20,8 @@
 
     ** Install postgresql **
     apt-get install postgresql
+    sudo service postgresql restart
+    sudo -i -u postgres
     sudo -u postgres psql postgres
     \password
     
