@@ -50,12 +50,11 @@ while statusConnect:
     timeTempOut = datetime.time(18, 0, 0)  # Time out
     timeTempLate = datetime.time()
     timeTempEarly = datetime.time()
-
+    dataTempDate = None
     for uid in users:
         cur.execute(
             "SELECT iduser FROM timetable WHERE date = '" + str(dateNow) + "' AND iduser = " + str(users[uid][0]) + "")
         dataTempDate = cur.fetchall()
-    print(dataTempDate)
     tempCheck = False
     if len(dataTempDate) == 0:
         tempCheck = True
