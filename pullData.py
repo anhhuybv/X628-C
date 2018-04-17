@@ -4,7 +4,7 @@ sys.path.append("zklib")
 from zklib import zklib
 import psycopg2
 import datetime, time
-
+from zk import ZK, const
 # Connect to database
 currentDB = None
 cur = None
@@ -15,33 +15,30 @@ try:
 except:
     print ("Unable to connect to the database")
 
-# Connect to device X628
+# device X628
 zk = zklib.ZKLib("192.168.1.201", 4370)
-statusConnect = zk.connect()
-if statusConnect:
-    print ("Connected to device")
-else:
-    print ("No connected to devive")
+zkt = ZK('192.168.1.201', port=4370, timeout=5)
+conZkt = zkt.connect().is_connect
 
 # Pulling data
 while True:
+    statusConnect = zk.connect()
     if statusConnect:
-        attendance = zk.getAttendance()
-        # cur.execute("DELETE FROM datatable")
-        users = zk.getUser()
+        print ("Connected to device")
+    else:
+        print ("No connected to devive")
+    if statusConnect:
+        users = zkt.get_users()
+        attendances = zkt.get_attendance()
         tempDate = zk.getTime().date()
-        # Pull data swipe
-        for attData in attendance:
-            for uid in users:  # Get name user
-                if users[uid][0] == attData[0]:
-                    nameUser = users[uid][1]
-            dataTime = ({"iduser": format(attData[0]), "name": nameUser, "date": format(attData[2].date()),
-                         "time": format(attData[2].time()), "method_swipe": format(attData[1])})
-            cur.execute(
-                "INSERT INTO datatable (iduser,name,date,time,method_swipe) VALUES (%(iduser)s, %(name)s, %(date)s, %(time)s, %(method_swipe)s)",
-                dataTime)
-        # connectDB.commit()
-
+        zkt.get_serialnumber()
+        for us in users:
+            for att in attendances:
+                if us.user_id == att.user_id:
+                    dataTime = ({"iduser": format(us.user_id), "name": us.name, "date": format(att.timestamp.date()),"time": format(att.timestamp.time()), "method_swipe": format(att.status)})
+                    cur.execute("INSERT INTO datatable (iduser,name,date,time,method_swipe) VALUES (%(iduser)s, %(name)s, %(date)s, %(time)s, %(method_swipe)s)",dataTime)
+                    connectDB.commit()
+        zkt.clear_attendance()
         # Calculate time
         maxTime = None
         minTime = None
@@ -52,23 +49,25 @@ while True:
         timeTempLate = datetime.time()
         timeTempEarly = datetime.time()
         dataTempDate = None
-        for uid in users:
-            cur.execute(
-                "SELECT iduser FROM timetable WHERE date = '" + str(dateNow) + "' AND iduser = " + str(users[uid][0]) + "")
+        # Check user
+        for us in users:
+            cur.execute("SELECT iduser FROM timetable WHERE date = '" + str(dateNow) + "' AND iduser = '" + str(us.user_id) + "'")
             dataTempDate = cur.fetchall()
         tempCheck = False
         if dataTempDate == None:
             tempCheck = True
         else:
             tempCheck = False
+        # Calculate time
         if tempCheck:
-            for uid in users:
-                idUser = users[uid][0]
+            for us in users:
+                uid = us.uid
+                idUser = us.user_id
+                nameUser = us.name
                 maxTime = datetime.time()
                 minTime = datetime.time()
                 dateNow = datetime.date.today()
-                cur.execute(
-                    "SELECT time FROM datatable WHERE date = '" + str(dateNow) + "' AND iduser = " + str(idUser) + "")
+                cur.execute( "SELECT time FROM datatable WHERE date = '" + str(dateNow) + "' AND iduser = '" + str(idUser) + "'")
                 dataQuery = cur.fetchall()
                 # Sort data after query
                 sorted(dataQuery)
@@ -83,7 +82,7 @@ while True:
                     elif maxTime >= timeTempIn:
                         timeTempLate = datetime.time(maxTime.hour - timeTempIn.hour, maxTime.minute - timeTempIn.minute,
                                                      maxTime.second - timeTempIn.second)
-                    dataInsert = ({"iduser": format(idUser), "name": format(users[uid][1]), "timein": format(minTime),
+                    dataInsert = ({"iduser": format(uid), "name": format(nameUser), "timein": format(minTime),
                                    "date": format(dateNow), "timeout": format(maxTime), "timeearly": format(timeTempEarly),
                                    "timelate": format(timeTempLate)})
                     cur.execute(
