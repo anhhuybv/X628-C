@@ -94,4 +94,4 @@ while True:
     else:
         print("Can not pulling data")
         print("Can not connect to device")
-    time.sleep(300)
+    time.sleep(60)

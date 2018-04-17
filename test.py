@@ -40,17 +40,24 @@ if True:
     # else:
     #     print("Can not pushing user")
     #     print("Can not connect device")
-    zkt.delete_user(uid = int(12))
+    # zkt.delete_user(uid = int(12))
+    #
+    # users = zk.getUser()
+    #
+    # for uid in users:
+    #     print ('  UID        : {}'.format(uid))
+    #     print ('  User  ID   : {}'.format(users[uid][0]))
+    #     print ('  Name       : {}'.format(users[uid][1]))
+    #     print ('  Privilege  : {}'.format(users[uid][2]))
+    #     print ('  Password   : {}'.format(users[uid][3]))
+    arrayData = []
+    cur.execute("SELECT * FROM timetable")
+    data = cur.fetchall()
+    for i in data:
+        arrayData.append(i)
+        print(i)
 
-    users = zk.getUser()
-
-    for uid in users:
-        print ('  UID        : {}'.format(uid))
-        print ('  User  ID   : {}'.format(users[uid][0]))
-        print ('  Name       : {}'.format(users[uid][1]))
-        print ('  Privilege  : {}'.format(users[uid][2]))
-        print ('  Password   : {}'.format(users[uid][3]))
     #     dataUsers = ({"uid": format(uid), "iduser": format(users[uid][0]), "name": format(users[uid][1]), "privilege": format(1), "password": format(1)})
     #     cur.execute("INSERT INTO usertable (uid,iduser,name,privilege,password) VALUES (%(uid)s, %(iduser)s, %(name)s, %(privilege)s, %(password)s)", dataUsers)
     # connectDB.commit()
-    time.sleep(60)
+    # time.sleep(60)
