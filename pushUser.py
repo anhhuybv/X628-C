@@ -17,7 +17,7 @@ except:
     print ("Unable to connect to the database")
 
 # Connect to device X628
-zk = zklib.ZKLib("192.168.1.200", 4370)
+zk = zklib.ZKLib("192.168.1.201", 4370)
 statusConnect = zk.connect()
 if statusConnect:
     print ("Connected to device")
@@ -25,12 +25,16 @@ else:
     print ("No connected to devive")
 
 # Pull data from device X628
-while statusConnect:
-    cur.execute("SELECT uid,iduser,name FROM usertable")
-    data = cur.fetchall()
-    for i in data:
-        zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_USER)
-    print("Pushing user is done")
+while True:
+    if(statusConnect):
+        cur.execute("SELECT uid,iduser,name FROM usertable")
+        data = cur.fetchall()
+        for i in data:
+            zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_USER)
+        print("Pushing user is done")
+    else:
+        print("Can not pushing user")
+        print("Can not connect device")
 
     # users = zk.getUser()
     # for uid in users:
