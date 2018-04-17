@@ -4,6 +4,7 @@ sys.path.append("zklib")
 from flask import Flask, render_template, request, session
 from wtforms import Form, TextField, validators
 import os, datetime, psycopg2
+from zklib import zklib, zkconst,zkdevice
 
 app = Flask("__name__")
 app.config.from_object(__name__)
@@ -19,6 +20,12 @@ try:
 except:
     print ("Unable to connect to the database")
 
+zk = zklib.ZKLib("192.168.1.201", 4370)
+statusConnect = zk.connect()
+if statusConnect:
+    print ("Connected to device")
+else:
+    print ("No connected to devive")
 
 class UserForm(Form):
     uid = TextField('uid:', validators=[validators.required(), validators.Length(min=1, max=35)])
@@ -54,6 +61,7 @@ def delete():
             user = ({"iduser": format(iduser)})
             cur.execute("DELETE FROM usertable WHERE iduser = '" + str(iduser) + "'", user)
             connectDB.commit()
+            zk.clearUser()
         return render_template('deleteUser.html', form=deleteUser)
     else:
         return render_template('login.html')
