@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("zklib")
-from flask import Flask, render_template, request, session,flash
+from flask import Flask, render_template, request, session
 from wtforms import Form, TextField, validators
 import os, datetime, psycopg2
 
