@@ -4,8 +4,7 @@ sys.path.append("zklib")
 from flask import Flask, render_template, request, session
 from wtforms import Form, TextField, validators
 import os, datetime, psycopg2
-from zklib import zklib, zkconst,zkdevice
-from zk import ZK, const
+from zk import ZK
 
 app = Flask("__name__")
 app.config.from_object(__name__)
@@ -24,6 +23,7 @@ except:
 zkt = ZK('192.168.1.201', port=4370, timeout=5)
 conZkt = zkt.connect().is_connect
 
+
 class UserForm(Form):
     uid = TextField('uid:', validators=[validators.required(), validators.Length(min=1, max=35)])
     id = TextField('iduser:', validators=[validators.required(), validators.Length(min=1, max=35)])
@@ -39,7 +39,7 @@ def createUser():
             uid = request.form['uid']
             iduser = request.form['iduser']
             name = request.form['name']
-            cur.execute("SELECT uid FROM usertable WHERE uid = '" + str(uid) + "' and iduser = '"+ str(iduser)+"'")
+            cur.execute("SELECT uid FROM usertable WHERE uid = '" + str(uid) + "' and iduser = '" + str(iduser) + "'")
             data = cur.fetchall()
             if data.__len__() == 0:
                 user = ({"uid": format(uid), "iduser": format(iduser), "name": format(name)})
@@ -62,7 +62,10 @@ def delete():
             cur.execute("DELETE FROM usertable WHERE iduser = '" + str(iduser) + "'", user)
             if conZkt:
                 connectDB.commit()
-                zkt.delete_user(uid= int(iduser))
+                users = zkt.get_users()
+                for user in users:
+                    if user.uid == iduser:
+                        zkt.delete_user(uid=int(iduser))
         return render_template('deleteUser.html', form=deleteUser)
     else:
         return render_template('login.html')
