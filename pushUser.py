@@ -5,6 +5,7 @@ sys.path.append("zklib")
 import psycopg2, time
 
 from zklib import zklib, zkconst,zkdevice
+from zk import ZK
 
 # Connect to database
 connectDB = None
@@ -19,6 +20,10 @@ except:
 # Connect to device X628
 zk = zklib.ZKLib("192.168.1.201", 4370)
 statusConnect = zk.connect()
+zkt = ZK('192.168.1.201', port=4370, timeout=5)
+zkt.connect()
+conZkt = zkt.is_connect
+
 if statusConnect:
     print ("Connected to device")
 else:
@@ -31,7 +36,9 @@ while True:
         data = cur.fetchall()
         if data.__len__() != 0:
             for i in data:
-                zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_USER)
+                print(i)
+                zkt.set_user(uid=int(i[0]),name=str(i[2]),privilege=1,group_id=1,user_id=i[1])
+                # zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_USER)
             print("Pushing user is done")
         elif data.__len__() == 0:
             print("No user to pushing")
