@@ -29,9 +29,12 @@ while True:
     if(statusConnect):
         cur.execute("SELECT uid,iduser,name FROM usertable")
         data = cur.fetchall()
-        for i in data:
-            zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_USER)
-        print("Pushing user is done")
+        if data.__len__() != 0:
+            for i in data:
+                zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_USER)
+            print("Pushing user is done")
+        elif data.__len__() == 0:
+            print("No user to pushing")
     else:
         print("Can not pushing user")
         print("Can not connect device")
