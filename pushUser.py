@@ -37,8 +37,8 @@ while True:
         if data.__len__() != 0:
             for i in data:
                 print(i)
-                # zkt.set_user(uid=i[0],name=str(i[2]),privilege=1,password=str(1),group_id=str(1),user_id=str(i[1]))
-                zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_USER)
+                zkt.set_user(uid=int(i[0]),name=i[2],privilege=1,password=str(1),group_id=str(1),user_id=str(i[1]))
+                # zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_USER)
             print("Pushing user is done")
         elif data.__len__() == 0:
             print("No user to pushing")
