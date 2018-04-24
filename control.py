@@ -21,7 +21,8 @@ except:
     print ("Unable to connect to the database")
 
 zkt = ZK('192.168.1.201', port=4370, timeout=5)
-conZkt = zkt.connect().is_connect
+zkt.connect()
+conZkt = zkt.is_connect
 
 
 class UserForm(Form):

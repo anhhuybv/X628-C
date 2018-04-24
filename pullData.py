@@ -19,7 +19,8 @@ except:
 # device X628
 zk = zklib.ZKLib("192.168.1.201", 4370)
 zkt = ZK('192.168.1.201', port=4370, timeout=5)
-conZkt = zkt.connect().is_connect
+zkt.connect()
+conZkt = zkt.is_connect
 
 # Pulling data
 while True:
