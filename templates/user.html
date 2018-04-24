@@ -41,13 +41,17 @@
       <tr style="text-align:left">
         <th>Mã số học viên</th>
         <th>Họ và tên</th>
+        <th>Số điện thoại</th>
+        <th>Email</th>
       </tr>
     </thead>
     <tbody>
       {% for user in users %}
       <tr>
+        <td>{{ user[0] }}</td>
         <td>{{ user[1] }}</td>
         <td>{{ user[2] }}</td>
+        <td>{{ user[3] }}</td>
       </tr>
       {% endfor %}
     </tbody>

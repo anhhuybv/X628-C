@@ -130,7 +130,7 @@ def reportMonth():
 def user():
     if session.get('logged_in'):
         user = []
-        cur.execute("SELECT * FROM usertable")
+        cur.execute("SELECT iduser,name,phonenumber,email FROM usertable")
         data = cur.fetchall()
         for i in data:
             user.append(i)
