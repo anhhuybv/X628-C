@@ -40,7 +40,9 @@
     name text not null, 
     privilege text,
     password text,
-    groupid text);
+    groupid text,
+    phonenumber text,
+    email text);
     
     create table timetable (
     numerical serial primary key not null,
