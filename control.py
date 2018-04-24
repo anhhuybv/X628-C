@@ -42,11 +42,13 @@ def createUser():
             name = request.form['name']
             phoneNumber = request.form['phonenumber']
             email = request.form['email']
+            print(phoneNumber)
+            print(email)
             cur.execute("SELECT uid FROM usertable WHERE uid = '" + str(uid) + "' and iduser = '" + str(iduser) + "'")
             data = cur.fetchall()
             if data.__len__() == 0:
                 user = ({"uid": format(uid), "iduser": format(iduser), "name": format(name), "phonenumber":format(phoneNumber),"email":format(email)})
-                cur.execute("INSERT INTO usertable (uid,iduser,name,phonenumber,email) VALUES (%(uid)s, %(iduser)s, %(name)s), %(phonenumber)s), %(email)s)", user)
+                cur.execute("INSERT INTO usertable (uid,iduser,name,phonenumber,email) VALUES (%(uid)s, %(iduser)s, %(name)s, %(phonenumber)s, %(email)s)", user)
                 connectDB.commit()
         return render_template('createUser.html', form=userForm)
     else:
