@@ -43,7 +43,7 @@ while True:
                         "INSERT INTO datatable (iduser,name,date,time,method_swipe) VALUES (%(iduser)s, %(name)s, %(date)s, %(time)s, %(method_swipe)s)",
                         dataTime)
                     connectDB.commit()
-        # zkt.clear_attendance()
+        zkt.clear_attendance()
         # Calculate time
         maxTime = None
         minTime = None

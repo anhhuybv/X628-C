@@ -57,7 +57,7 @@
     git clone https://github.com/anhhuybv/X628-C.git
     cd X628-C
     ./run.sh
-    (username: admin, password: techmaster)
+    (username: admin, password: 1)
 
 ## SDK python x628-c
     https://github.com/AlSayedGamal/python_zklib
