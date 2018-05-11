@@ -36,24 +36,11 @@ while True:
         data = cur.fetchall()
         if data.__len__() != 0:
             for i in data:
-                print(i)
                 zkt.set_user(uid=int(i[0]),name=i[2],privilege=1,password=str(1),group_id=str(1),user_id=str(i[1]))
-                # zk.setUser(uid=int(i[0]), userid=str(i[1]), name=str(i[2]), password='1', role=zkconst.LEVEL_USER)
             print("Pushing user is done")
         elif data.__len__() == 0:
             print("No user to pushing")
     else:
         print("Can not pushing user")
         print("Can not connect device")
-
-    # users = zk.getUser()
-    # for uid in users:
-    #     print ('  UID        : {}'.format(uid))
-    #     print ('  User  ID   : {}'.format(users[uid][0]))
-    #     print ('  Name       : {}'.format(users[uid][1]))
-    #     print ('  Privilege  : {}'.format(users[uid][2]))
-    #     print ('  Password   : {}'.format(users[uid][3]))
-    #     dataUsers = ({"uid": format(uid), "iduser": format(users[uid][0]), "name": format(users[uid][1]), "privilege": format(1), "password": format(1)})
-    #     cur.execute("INSERT INTO usertable (uid,iduser,name,privilege,password) VALUES (%(uid)s, %(iduser)s, %(name)s, %(privilege)s, %(password)s)", dataUsers)
-    # connectDB.commit()
     time.sleep(60)
