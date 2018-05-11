@@ -66,5 +66,6 @@
 
 ## Command docker
     docker run --name db-x628-c -e POSTGRES_PASSWORD=123 -d -p 5432:5432 postgres:9.6
+    docker run -d -p 1010:1010 --name x628 -it ubuntu:17.10
     docker exec -it x628-c /bin/bash
     docker exec -it -u postgres db-x628-c psql
